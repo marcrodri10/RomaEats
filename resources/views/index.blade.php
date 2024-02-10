@@ -44,10 +44,10 @@
 
         <div class="food-summary mt-20 w-100 flex flex-col justify-center  items-center mb-10">
             <div class="dishes width-80 bg-gray-100 flex justify-between">
-                <x-food-card  price="6,50">Costillar de cerdo</x-food-card>
-                <x-food-card  price="6,50">Costillar de cerdo</x-food-card>
-                <x-food-card  price="6,50">Costillar de cerdo</x-food-card>
-                <x-food-card  price="6,50">Costillar de cerdo</x-food-card>
+                <x-default-card  price="6,50">Costillar de cerdo</x-default-card>
+                <x-default-card  price="6,50">Costillar de cerdo</x-default-card>
+                <x-default-card  price="6,50">Costillar de cerdo</x-default-card>
+                <x-default-card  price="6,50">Costillar de cerdo</x-default-card>
             </div>
             <x-primary-button class="ms-3 bg-green-700 pt-4 pb-4 pl-10 pr-10 flex justify-center mt-16">
                 {{ __('VER TODOS') }}
