@@ -1,4 +1,4 @@
-<div class=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 food-dish">
+<div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 food-dish mt-5">
     <div class="w-50">
         <img src="{{URL::to('img/landing1.jpeg')}}" alt="shop-cart" class="">
     </div>
