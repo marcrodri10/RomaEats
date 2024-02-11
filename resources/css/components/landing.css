@@ -6,6 +6,9 @@
     height: 30%;
 }
 
-.food-dish{
-    width: 24%;
+@media (max-width: 1177px) {
+    .dishes {
+        display: flex;
+        justify-content: space-evenly;
+    }
 }

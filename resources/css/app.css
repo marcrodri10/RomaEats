@@ -1,12 +1,16 @@
 *{
     margin: 0;
     padding: 0;
+
 }
 .w-100{
     width: 100%;
 }
 .width-80{
     width: 80%;
+}
+.h-100{
+    height: 100%;
 }
 .h-50{
     height: 50%
@@ -16,6 +20,13 @@
 }
 .h-25{
     height: 25%
+}
+.food-dish{
+    width: 310px;
+}
+
+.message-empty{
+    height: 90%
 }
 
 @tailwind base;
