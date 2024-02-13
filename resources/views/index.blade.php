@@ -32,9 +32,9 @@
                             <x-li-check-svg>Diseña tus propias recetas</x-li-check-svg>
                             <x-li-check-svg>Cocinamos por ti</x-li-check-svg>
                             <x-li-check-svg>Envíos en toda la península</x-li-check-svg>
-                            <li> <x-primary-button class="ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">
+                            <li> <x-primary-anchor class="ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8" href="dishes">
                                     {{ __('Haz tu pedido') }}
-                                </x-primary-button></li>
+                                </x-primary-anchor></li>
                         </ul>
                     </div>
 
@@ -56,9 +56,9 @@
                 <x-default-card price="6,50">Costillar de cerdo</x-default-card>
                 <x-default-card price="6,50">Costillar de cerdo</x-default-card>
             </div>
-            <x-primary-button class="ms-3 bg-green-700 pt-4 pb-4 pl-10 pr-10 flex justify-center mt-16">
+            <x-primary-anchor class="ms-3 bg-green-700 pt-4 pb-4 pl-10 pr-10 flex justify-center mt-16" href="dishes">
                 {{ __('VER TODOS') }}
-            </x-primary-button>
+            </x-primary-anchor>
         </div>
     </main>
 
