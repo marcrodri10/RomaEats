@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreign('order_id')->references('order_id')->on('orders')->onDelete('cascade')->onUpdate('cascade');
 
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
             $table->unsignedBigInteger('card_id');
             $table->foreign('card_id')->references('card_id')->on('cards')->onDelete('cascade')->onUpdate('cascade');

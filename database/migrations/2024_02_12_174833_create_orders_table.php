@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('user_comments');
 
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
             $table->unsignedBigInteger('order_dish_id');
             $table->foreign('order_dish_id')->references('order_dish_id')->on('order_dish')->onDelete('cascade')->onUpdate('cascade');
