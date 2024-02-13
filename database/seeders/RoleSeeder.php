@@ -18,7 +18,7 @@ class RoleSeeder extends Seeder
 
         foreach($arrayRoles as $role){
             $roleClass = new Role;
-            $roleClass->name = $role;
+            $roleClass->role_name = $role;
             $roleClass->save();
         }
 
