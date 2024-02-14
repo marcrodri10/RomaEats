@@ -20,7 +20,7 @@
         <x-navbar></x-navbar>
         <form class="flex justify-center mt-32">
             <div class="w-1/2">
-                <x-search-input></x-search-input>
+                <x-search-input placeholder=""></x-search-input>
             </div>
         </form>
         <div class="main-info flex justify-center items-center mt-20">
