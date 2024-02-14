@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DishController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ use App\Http\Controllers\ProfileController;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/dishes', [DishController::class, 'index'])->name('dishes');
+Route::get('/products', [ProductsController::class, 'index'])->name('products');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
