@@ -16,14 +16,14 @@
 
 <body>
     <x-navbar></x-navbar>
-    <div class="dishes mt-32 flex justify-center">
-        <div class="dishes-cards width-80 flex items-center flex-wrap justify-center">
+    <x-shoping-cart-modal></x-shoping-cart-modal>
+    <main class="dishes mt-32 flex justify-center">
+        <div class="dishes-cards width-80 flex items-center flex-wrap justify-center" id="dishes">
 
-            @for ($i = 0; $i < 9; $i++)
-                <x-default-card price="10">ssss</x-default-card>
-            @endfor
-            <x-default-card price="10">ssss</x-default-card>
+            @foreach ($dishes as $dish)
+                <x-default-card id="{{ $dish->dish_id }}" price="{{ $dish->dish_price }}">{{ $dish->dish_name }}</x-default-card>
+            @endforeach
 
         </div>
-    </div>
+    </main>
 </body>
