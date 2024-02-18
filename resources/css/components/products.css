@@ -1,0 +1,16 @@
+.food-product{
+    width: 260px;
+    height: 300px;
+}
+#product-form{
+    position: absolute;
+}
+#reader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+.product-info{
+    width: 50%;
+}

@@ -1,95 +1,144 @@
-import {Html5Qrcode} from "html5-qrcode";
+import { Html5Qrcode } from "html5-qrcode";
+import * as library from "../library/library.js";
 
-const productoDiv = document.querySelector('#producto');
+const productsDiv = document.querySelector("#products-div");
+const productDiv = document.querySelector('#product');
 const searchForm = document.querySelector('#form');
 const scanBtn = document.querySelector('#scan-btn');
-const searchInput = document.querySelector('#search');
+const productSearch = document.querySelector('#search-product');
+const searchBtn = document.querySelector('#search-btn');
+const addBtn = document.querySelectorAll('#add-btn > *');
+const productForm = document.querySelector('#product-form');
+const closeModal = document.querySelectorAll('#close-modal > *');
+let html5QrCode;
 
+addBtn.forEach(element => {
+    element.addEventListener('click', (e) => {
+        library.showModal(productForm);
+        productsDiv.style.filter = 'blur(5px)';
+    })
+
+})
+
+closeModal.forEach(element => {
+    element.addEventListener('click', (e) => {
+        library.hideModal(productForm);
+        productsDiv.style.filter = 'blur(0)';
+    })
+})
+
+productSearch.addEventListener('input', () => {
+    if (productSearch.value.trim().length == 13 && productSearch.value.match(/[*[0-9^]/)) {
+
+        getProduct(productSearch.value);
+    }
+
+})
+productForm.addEventListener('click', (e) => {
+    if(e.target.value == "close"){
+        library.hideModal(productForm);
+        productsDiv.style.filter = 'blur(0)';
+        productDiv.innerHTML = '';
+        productSearch.value = '';
+    }
+})
+
+console.log(searchForm);
 
 let detected = false;
 let result;
 function onScanSuccess(decodedText, decodedResult) {
-  // handle the scanned code as you like, for example:
-  result = decodedText;
+    // handle the scanned code as you like, for example:
+    result = decodedText;
 
 }
 function handleResult(result) {
-  // Lógica que depende de 'result'
-  return result;
+    // Lógica que depende de 'result'
+    return result;
 }
 function stopScanner() {
-  if (html5QrcodeScanner) {
-    html5QrcodeScanner.stop();
-    console.log("Cámara detenida");
-  }
+    if (html5QrcodeScanner) {
+        html5QrcodeScanner.stop();
+        console.log("Cámara detenida");
+    }
 }
 const formatsToSupport = [
-  Html5Qrcode.QR_CODE,
-  Html5Qrcode.UPC_A,
-  Html5Qrcode.UPC_E,
-  Html5Qrcode.UPC_EAN_EXTENSION,
-  Html5Qrcode.EAN_13,
+    Html5Qrcode.QR_CODE,
+    Html5Qrcode.UPC_A,
+    Html5Qrcode.UPC_E,
+    Html5Qrcode.UPC_EAN_EXTENSION,
+    Html5Qrcode.EAN_13,
 ];
 
 scanBtn.addEventListener('click', async (e) => {
-  e.preventDefault();
-  productoDiv.innerHTML = '';
-  try {
-    // This method will trigger user permissions
-    const devices = await Html5Qrcode.getCameras();
+    e.preventDefault();
+    if (scanBtn.value == 'scan') {
+        productDiv.innerHTML = '';
+        productSearch.setAttribute('readonly', 'true');
+        try {
+            // This method will trigger user permissions
+            const devices = await Html5Qrcode.getCameras();
 
-    /**
-     * devices would be an array of objects of type:
-     * { id: "id", label: "label" }
-     */
-    console.log(devices);
+            /**
+             * devices would be an array of objects of type:
+             * { id: "id", label: "label" }
+             */
+            console.log(devices);
 
-    if (devices && devices.length) {
-      const cameraId = devices[0].id;
-      const html5QrCode = new Html5Qrcode(/* element id */ "reader");
+            if (devices && devices.length) {
+                const cameraId = devices[0].id;
+                html5QrCode = new Html5Qrcode(/* element id */ "reader");
 
-      html5QrCode.start(
+                await html5QrCode.start(
 
-        cameraId,
-        {
-          fps: 10,    // Optional, frame per seconds for qr code scanning
-          qrbox: { width: 600, height: 200 }, // Optional, if you want bounded box UI
-        },
-        (decodedText, decodedResult) => {
-          if (decodedText != null || decodedResult != undefined) {
-            searchInput.value = decodedText;
-            const spinnerDiv = document.querySelector("#spinner");
-            spinnerDiv.innerHTML = `<div class="d-flex justify-content-center">
-                <div class="spinner-border" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-              </div>`;
+                    cameraId,
+                    {
+                        fps: 10,    // Optional, frame per seconds for qr code scanning
+                        qrbox: { width: 300, height: 200 }, // Optional, if you want bounded box UI
+                    },
+                    (decodedText, decodedResult) => {
+                        console.log(decodedText);
+                        if (decodedText != null || decodedText != undefined) {
+                            console.log('hola');
+                            productSearch.value = decodedText;
+                            console.log(decodedText);
+                            html5QrCode.stop().then((ignore) => {
+                                // QR Code scanning is stopped.
+                            }).catch((err) => {
+                                // Stop failed, handle it.
+                            });
+                            getProduct(productSearch.value);
+                        }
+                    },
+                    (errorMessage) => {
+                        // parse error, ignore it.
+                    }
+                ).catch((err) => {
+                    // Start failed, handle it.
+                });
+                scanBtn.value = "stop"
+                scanBtn.textContent = "STOP";
 
-            console.log(decodedText);
-            html5QrCode.stop().then((ignore) => {
-              // QR Code scanning is stopped.
-            }).catch((err) => {
-              // Stop failed, handle it.
-            });
-            getProduct();
-            spinnerDiv.innerHTML = ``;
-          }
-
-        },
-        (errorMessage) => {
-          // parse error, ignore it.
+            } else {
+                console.log("No se encontraron cámaras disponibles.");
+            }
+        } catch (err) {
+            console.error("Error al obtener las cámaras:", err);
+            // handle error
         }
-      ).catch((err) => {
-        // Start failed, handle it.
-      });
-
-    } else {
-      console.log("No se encontraron cámaras disponibles.");
     }
-  } catch (err) {
-    console.error("Error al obtener las cámaras:", err);
-    // handle error
-  }
+    else if (scanBtn.value == 'stop') {
+        html5QrCode.stop().then((ignore) => {
+            // QR Code scanning is stopped.
+        }).catch((err) => {
+            // Stop failed, handle it.
+        });
+        scanBtn.value = "scan";
+        scanBtn.textContent = "ESCANEAR";
+        productSearch.removeAttribute('readonly');
+
+    }
+
 });
 
 
@@ -97,112 +146,119 @@ scanBtn.addEventListener('click', async (e) => {
 
 
 searchForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  let formData = new FormData(searchForm);
-  let dataObject = Object.fromEntries(formData.entries());
-  console.log(dataObject);
-  if (dataObject.search != "") {
+    e.preventDefault();
+    let formData = new FormData(searchForm);
+    let dataObject = Object.fromEntries(formData.entries());
+    console.log(dataObject);
+    if (dataObject.search != "") {
 
-    fetch(`https://es.openfoodfacts.org/api/v2/product/${dataObject.search}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        const imageDiv = document.createElement("div");
-        imageDiv.className = "img";
-        const image = document.createElement('img');
-        image.src = data.product.image_front_thumb_url;
+        fetch(`https://es.openfoodfacts.org/api/v2/product/${dataObject.search}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                /* const imageDiv = document.createElement("div");
+                imageDiv.className = "img";
+                const image = document.createElement('img');
+                image.src = data.product.image_front_thumb_url;
 
-        imageDiv.appendChild(image);
-        productoDiv.appendChild(imageDiv);
+                imageDiv.appendChild(image);
+                productoDiv.appendChild(imageDiv);
 
-        const info = document.createElement('div');
-        info.className = 'info';
-        const dataArray = ['product_name_es', 'quantity'];
-        let dataInfo = {};
-        for (let element in data.product) {
-          if (dataArray.includes(element)) {
-            dataInfo[element] = data.product[element];
-          }
-        }
-        console.log(dataInfo);
-        const h1 = document.createElement('h1');
+                const info = document.createElement('div');
+                info.className = 'info';
+                const dataArray = ['product_name_es', 'quantity'];
+                let dataInfo = {};
+                for (let element in data.product) {
+                    if (dataArray.includes(element)) {
+                        dataInfo[element] = data.product[element];
+                    }
+                }
+                console.log(dataInfo);
+                const h1 = document.createElement('h1');
 
-        for (let element in dataInfo) {
-          if (dataInfo[element] != '' || dataInfo[element].length != 0) {
-            h1.textContent += dataInfo[element] + ' - ';
-          }
+                for (let element in dataInfo) {
+                    if (dataInfo[element] != '' || dataInfo[element].length != 0) {
+                        h1.textContent += dataInfo[element] + ' - ';
+                    }
 
-        }
-        h1.textContent = h1.textContent.slice(0, h1.textContent.length - 3)
-        info.appendChild(h1);
+                }
+                h1.textContent = h1.textContent.slice(0, h1.textContent.length - 3)
+                info.appendChild(h1);
 
 
-        const p = document.createElement('p');
-        p.textContent = `Código de barras: ${data.product.id}`;
-        info.appendChild(p);
+                const p = document.createElement('p');
+                p.textContent = `Código de barras: ${data.product.id}`;
+                info.appendChild(p);
+                productoDiv.appendChild(info); */
+                let cat = "";
+                if (data.product.categories_imported == null || data.product.categories_imported == undefined) cat = "";
+                else cat = data.product.categories_imported
+                const finalData = {
+                    user_product_code: data.product.id,
+                    user_product_name: data.product.product_name_es,
+                    user_product_brand: data.product.brands,
+                    user_product_category: cat,
+                    user_product_store_location: data.product.stores,
+                    user_product_nutri_score: data.product.nutriscore_grade
+                }
 
-        productoDiv.appendChild(info);
-        /*  productoDiv.innerHTML = `
-             <div class='img'>
-                 <img src='${data.product.image_front_thumb_url}'>
-             </div>
-             <div class='info'>
-                 <h1>${data.product.product_name_es} - ${data.product.stores_tags[1].charAt(0).toUpperCase()}${data.product.stores_tags[1].slice(1)} - ${data.product.quantity} </h1>
-                 <p>Código de barras: ${data.product.code}</p>
-             </div>`; */
-      })
-  }
+                sendToPhp('/save-product', finalData);
+            })
+    }
 
 });
 
-async function getProduct() {
-  let formData = new FormData(searchForm);
-  let dataObject = Object.fromEntries(formData.entries());
-  console.log(dataObject);
-  if (dataObject.search != "") {
-    console.log('holaaa');
+async function getProduct(id) {
+
     try {
-      const response = await fetch(`https://es.openfoodfacts.org/api/v2/product/${dataObject.search}`);
-      console.log(response);
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-         const imageDiv = document.createElement("div");
-        imageDiv.className = "img";
-        const image = document.createElement('img');
-        image.src = data.product.image_front_thumb_url;
+        const response = await fetch(`https://es.openfoodfacts.org/api/v2/product/${id}`);
+        console.log(response);
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            productDiv.innerHTML = `
+            <div class="flex items-center justify-center product-info gap-5">
+                <div class="img">
+                    <img src="${data.product.image_front_thumb_url}">
+                </div>
+                <div class="info flex flex-col justify-center">
+                    <h1>${data.product.product_name_es ? data.product.product_name_es : ''} - ${data.product.quantity ? data.product.quantity : ''}</h1>
+                    <p>Código de barras: ${data.product.id}</p>
+                </div>
+            </div>
+            <div class="flex gap-5">
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" value=${data.product.id} name="search">Sí</button>
+                <button type="button" class="bg-red-700 text-white hover:bg-red-800 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" value="close">No</button>
+            </div>`;
 
-        imageDiv.appendChild(image);
-        productoDiv.appendChild(imageDiv);
 
-        const info = document.createElement('div');
-        info.className = 'info';
-        const dataArray = ['product_name_es', 'quantity'];
-        let dataInfo = {};
-        for (let element in data.product) {
-          if (dataArray.includes(element)) {
-            dataInfo[element] = data.product[element];
-          }
         }
-        console.log(dataInfo);
-        const h1 = document.createElement('h1');
-
-        for (let element in dataInfo) {
-          if (dataInfo[element] != '' || dataInfo[element].length != 0) {
-            h1.textContent += dataInfo[element] + ' - ';
-          }
-        }
-        h1.textContent = h1.textContent.slice(0, h1.textContent.length - 3)
-        info.appendChild(h1);
-
-        const p = document.createElement('p');
-        p.textContent = `Código de barras: ${data.product.id}`;
-        info.appendChild(p);
-
-        productoDiv.appendChild(info);
-      }
     } catch (error) {
-      console.error('Error en la llamada fetch:', error);
+        console.error('Error en la llamada fetch:', error);
     }
-  }
+
+}
+
+async function sendToPhp(route, data) {
+    console.log(data);
+    var options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    };
+
+    const response = await fetch(route, options)
+
+    if (!response.ok) {
+        throw new Error('Error al guardar los datos: ' + response.statusText);
+    }
+    const message = await response.json();
+    console.log(message);
+    if (message.message == true) window.location.href = '/products';
+    else console.log(message);
+
+    console.log(message);
+
 }
