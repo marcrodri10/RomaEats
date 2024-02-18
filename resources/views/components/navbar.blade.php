@@ -1,5 +1,4 @@
 <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-    </div>
     <div class="flex flex-wrap items-center justify-between mx-auto p-4">
         <button data-collapse-toggle="navbar-sticky" type="button"
             class="inline-flex items-center p-2 w-1/4 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -60,8 +59,9 @@
                         class="w-10 h-10"></a>
             @endif
 
-            <button href="#" data-modal-target="static-modal" data-modal-toggle="static-modal"><img src="{{ URL::to('img/shopping-cart.svg') }}" alt="user icon" class="w-10 h-10"
-                    id="shopping-cart"></button>
+            <button id="shopping-cart"href="#" data-modal-target="static-modal" data-modal-toggle="static-modal">
+                <img src="{{ URL::to('img/shopping-cart.svg') }}" alt="user icon" class="w-10 h-10">
+            </button>
         </div>
         <div class="items-center justify-between hidden w-1/2 md:flex md:w-auto md:order-1" id="navbar-sticky">
             <ul
