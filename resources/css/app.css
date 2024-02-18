@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 *{
     margin: 0;
     padding: 0;
@@ -8,6 +12,9 @@
 }
 .width-80{
     width: 80%;
+}
+.w-90{
+    width: 90%;
 }
 .w-50{
     width: 50%;
@@ -24,15 +31,8 @@
 .h-25{
     height: 25%
 }
-.food-dish{
-    width: 310px;
-}
-
 .message-empty{
     height: 90%
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 

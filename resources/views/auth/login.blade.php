@@ -53,7 +53,7 @@
 
         <div class="flex justify-center items-center mt-8">
 
-            <x-primary-button class="ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">
+            <x-primary-button value="login" class="ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>

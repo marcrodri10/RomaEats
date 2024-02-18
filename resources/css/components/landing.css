@@ -5,6 +5,9 @@
 .landing-h2{
     height: 30%;
 }
+.food-dish{
+    width: 310px;
+}
 
 @media (max-width: 1177px) {
     .dishes {
