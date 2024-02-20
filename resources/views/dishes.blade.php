@@ -25,5 +25,10 @@
             @endforeach
 
         </div>
+
+        <div class="">
+            {{ $dishes->links() }}
+
+        </div>
     </main>
 </body>

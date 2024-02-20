@@ -1,4 +1,4 @@
-<div id="shopping-cart-modal" class="h-100 w-3/12 z-50 bg-white shadow-2xl fixed top-0 right-0 hidden">
+<div id="shopping-cart-modal" class="h-100 overflow-y-scroll p-4 w-3/12 z-50 bg-white shadow-2xl fixed top-0 right-0 hidden">
     <div class="close flex justify-end" id="close-cart">
         <button type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -11,7 +11,7 @@
         </button>
     </div>
 
-    <div class="message-empty w-100 flex flex-col justify-center items-center gap-5 ">
+    <div class="message-empty w-100 flex flex-col justify-start items-center gap-5 ">
         <h2>Tu carrito está vacío</h2>
         <x-primary-button value="see-more" class="ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">
             {{ __('Seguir Comprando') }}
