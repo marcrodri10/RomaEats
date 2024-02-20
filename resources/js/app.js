@@ -33,6 +33,10 @@ let userShopCart = {
 };
 
 dishes.addEventListener('click', (e) => {
+    var foodDish = e.target.closest('.food-dish');
+
+    var dishInfo = e.target.closest('.dish-info');
+
     if (e.target.id == "add") {
         console.log(e.target.nextSibling.nextSibling);
         e.target.nextSibling.nextSibling.classList.remove('hidden');
@@ -40,9 +44,7 @@ dishes.addEventListener('click', (e) => {
     else if (e.target.closest('#increment-button')) {
         let button = e.target.closest('#increment-button');
         button.parentNode.children[1].value++;
-        var foodDish = e.target.closest('.food-dish');
 
-        var dishInfo = e.target.closest('.dish-info');
         var incrementor = e.target.closest('.incrementor');
         console.log(dishInfo);
 
@@ -56,11 +58,11 @@ dishes.addEventListener('click', (e) => {
 
         for(let cart in userShopCart){
             shopCartModal.children[1].innerHTML += `
-            <div>
-                <div>
+            <div class="flex w-90 justify-around items-center gap-3">
+                <div class="w-40">
                     <img src = "img/landing1.jpeg">
                 </div>
-                <div>
+                <div class="w-40">
                     <p>${userShopCart[cart].name}</p>
                     <p>${userShopCart[cart].price}</p>
                     <p>Cantidad: ${userShopCart[cart].quantity}</p>
@@ -68,12 +70,6 @@ dishes.addEventListener('click', (e) => {
             </div>
             `
         }
-        console.log(incrementor);
-
-
-        console.log(userShopCart);
-
-
     }
     else if (e.target.id == 'decrement-button' || e.target.parentNode.id == 'decrement-button') {
         let button = e.target.closest('#decrement-button');
