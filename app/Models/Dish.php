@@ -12,6 +12,7 @@ class Dish extends Model
 
 
     protected $table = 'dishes';
+    protected $primaryKey = 'dish_id';
     protected $fillable = [
         'dish_name',
         'dish_description',
@@ -20,7 +21,8 @@ class Dish extends Model
         'proteins',
         'carbohydrates',
         'fats',
-        'quantity'
+        'quantity',
+        'dish_image',
     ];
 
     public function ingredients()

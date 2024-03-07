@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
 use App\Models\Dish;
 
 class DishController extends Controller
@@ -13,5 +13,12 @@ class DishController extends Controller
             ->paginate(5);
         return view('dishes', compact('dishes'));
     }
-    // Por aquí también
+
+    function showDish(Request $request){
+        $id = $request->route('id');
+
+        $dish = Dish::find($id);
+
+        return view('dish-full', ['dish' => $dish]);
+    }
 }
