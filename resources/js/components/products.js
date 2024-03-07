@@ -3,7 +3,7 @@ import * as library from "../library/library.js";
 
 const productsDiv = document.querySelector("#products-div");
 const productDiv = document.querySelector('#product');
-const searchForm = document.querySelector('#form');
+const searchForm = document.querySelector('#product-form');
 const scanBtn = document.querySelector('#scan-btn');
 const productSearch = document.querySelector('#search-product');
 const searchBtn = document.querySelector('#search-btn');
@@ -144,7 +144,7 @@ scanBtn.addEventListener('click', async (e) => {
 
 
 
-
+/*
 searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let formData = new FormData(searchForm);
@@ -156,7 +156,7 @@ searchForm.addEventListener('submit', (e) => {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                /* const imageDiv = document.createElement("div");
+                const imageDiv = document.createElement("div");
                 imageDiv.className = "img";
                 const image = document.createElement('img');
                 image.src = data.product.image_front_thumb_url;
@@ -189,7 +189,7 @@ searchForm.addEventListener('submit', (e) => {
                 const p = document.createElement('p');
                 p.textContent = `Código de barras: ${data.product.id}`;
                 info.appendChild(p);
-                productoDiv.appendChild(info); */
+                productoDiv.appendChild(info);
                 let cat = "";
                 if (data.product.categories_imported == null || data.product.categories_imported == undefined) cat = "";
                 else cat = data.product.categories_imported
@@ -202,12 +202,12 @@ searchForm.addEventListener('submit', (e) => {
                     user_product_nutri_score: data.product.nutriscore_grade
                 }
 
-                sendToPhp('/save-product', finalData);
+                //library.sendDataToPhp('/save-product', finalData);
             })
     }
 
 });
-
+ */
 async function getProduct(id) {
 
     try {
@@ -239,26 +239,3 @@ async function getProduct(id) {
 
 }
 
-async function sendToPhp(route, data) {
-    console.log(data);
-    var options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    };
-
-    const response = await fetch(route, options)
-
-    if (!response.ok) {
-        throw new Error('Error al guardar los datos: ' + response.statusText);
-    }
-    const message = await response.json();
-    console.log(message);
-    if (message.message == true) window.location.href = '/products';
-    else console.log(message);
-
-    console.log(message);
-
-}

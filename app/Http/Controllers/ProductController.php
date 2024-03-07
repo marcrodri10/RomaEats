@@ -41,13 +41,15 @@ class ProductController extends Controller
                 if (isset($data['product']['categories_imported'])) {
                     $category = $data['product']['categories_imported'];
                 } else $category = '';
-
+                if (isset($data['product']['stores'])) {
+                    $stores = $data['product']['stores'];
+                } else $stores = '';
                 $datos = [
                     'user_product_code' => $data['product']['id'],
                     'user_product_name' => $data['product']['product_name_es'],
                     'user_product_brand' => $data['product']['brands'],
                     'user_product_category' => $category,
-                    'user_product_store_location' => $data['product']['stores'],
+                    'user_product_store_location' => $stores,
                     'user_product_nutri_score' => $data['product']['nutriscore_grade'],
                     'user_product_image' => $imageUrl,
                 ];
