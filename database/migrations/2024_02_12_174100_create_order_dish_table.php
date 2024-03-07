@@ -13,17 +13,20 @@ return new class extends Migration
     {
         Schema::create('order_dish', function (Blueprint $table) {
             $table->id('order_dish_id');
-            $table->integer('quantity');
-            $table->float('price');
+            $table->string('order_dish_code');
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->unsignedBigInteger('user_dish_id');
+            $table->unsignedBigInteger('user_dish_id')->nullable();;
             $table->foreign('user_dish_id')->references('user_dish_id')->on('user_dishes')->onDelete('cascade')->onUpdate('cascade');
 
             $table->unsignedBigInteger('dish_id');
             $table->foreign('dish_id')->references('dish_id')->on('dishes')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->integer('quantity');
+            $table->float('price');
+
             $table->timestamps();
         });
     }

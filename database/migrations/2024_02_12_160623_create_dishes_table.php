@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('dish_name');
             $table->string('dish_description');
             $table->float('dish_price');
-            $table->string('calories');
-            $table->string('proteins');
-            $table->string('carbohydrates');
-            $table->string('fats');
+            $table->integer('calories');
+            $table->integer('proteins');
+            $table->integer('carbohydrates');
+            $table->integer('fats');
             $table->integer('quantity');
+            $table->string('dish_image');
             $table->timestamps();
         });
     }

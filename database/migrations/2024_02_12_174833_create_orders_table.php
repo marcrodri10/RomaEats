@@ -17,12 +17,14 @@ return new class extends Migration
             $table->string('order_status');
             $table->float('order_total_price');
             $table->string('user_comments');
+            $table->string('order_dish_code');
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->unsignedBigInteger('order_dish_id');
-            $table->foreign('order_dish_id')->references('order_dish_id')->on('order_dish')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('order_address');
+
+
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_recipes_steps', function (Blueprint $table) {
             $table->id('recipe_steps_id');
-            $table->string('recipe_description');
+            $table->string('recipe_step_description');
 
             $table->unsignedBigInteger('user_recipe_id');
             $table->foreign('user_recipe_id')->references('user_recipe_id')->on('user_recipes')->onDelete('cascade')->onUpdate('cascade');
