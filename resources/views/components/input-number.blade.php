@@ -1,4 +1,4 @@
-<div class="hidden">
+<div class="hidden product-quantity">
     <div class="relative flex items-center incrementor">
         <button type="button" id="decrement-button" data-input-counter-decrement="counter-input"
             class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-5 w-5 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">

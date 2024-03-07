@@ -1,4 +1,4 @@
-<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+<nav class="navbar bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
     <div class="flex flex-wrap items-center justify-between mx-auto p-4">
         <button data-collapse-toggle="navbar-sticky" type="button"
             class="inline-flex items-center p-2 w-1/4 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -72,7 +72,7 @@
                         platos</a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="{{ route('recipe.index')}}"
                         class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Mis
                         recetas</a>
                 </li>
@@ -80,6 +80,12 @@
                     <a href="{{ route('products') }}"
                         class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Mis
                         productos</a>
+                </li>
+                <li>
+                    <a href="{{ route('myorders.index') }}"
+                        class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                        Mis pedidos
+                        </a>
                 </li>
             </ul>
         </div>
