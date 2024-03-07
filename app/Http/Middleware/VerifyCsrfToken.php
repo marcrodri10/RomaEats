@@ -13,5 +13,11 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        'addOrder',
+        'save-product',
+        'payment',
+        'allOrderAddress',
+        'route/*',
+        'setDeliveryRoute'
     ];
 }
