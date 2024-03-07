@@ -11,14 +11,14 @@
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('surname')" required autofocus autocomplete="surname" />
-            <x-input-error :messages="$errors->get('surname')" class="mt-2" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- surname -->
         <div class="mt-4">
             <x-input-label for="surname" :value="__('Surame')" />
             <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <x-input-error :messages="$errors->get('surname')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
@@ -53,7 +53,7 @@
 
         <div class="flex justify-center items-center mt-8">
 
-            <x-primary-button class="ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">
+            <x-primary-button value="" class="ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">
                 {{ __('Register') }}
             </x-primary-button>
         </div>

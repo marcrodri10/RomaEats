@@ -57,7 +57,7 @@
             <x-input-error class="mt-2" :messages="$errors->get('phone')" />
         </div>
         <div class="flex items-center gap-4">
-            <x-primary-button class="bg-green-700 pt-3 pb-3 pl-8 pr-8">{{ __('Save') }}</x-primary-button>
+            <x-primary-button value="" class="bg-green-700 pt-3 pb-3 pl-8 pr-8">{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p
