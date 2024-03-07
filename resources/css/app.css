@@ -34,8 +34,43 @@
 .h-25{
     height: 25%
 }
+.h-80{
+    height: 80%;
+}
 .message-empty{
     height: 90%
 }
 
+.food-dish{
+    width: 310px;
+    height: 450px;
+    margin-left: 10px;
+}
+
+.food-product{
+    width: 260px;
+    height: 300px;
+}
+.card-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    grid-gap: 5px;
+    justify-items: center;
+    align-items: flex-start;
+  }
+.text-num-col{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.navbar{
+    height: 10vh;
+}
+.product{
+    height: 90vh;
+}
+.p{
+    margin-top: 10vh;
+}
 
