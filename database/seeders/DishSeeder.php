@@ -25,6 +25,7 @@ class DishSeeder extends Seeder
                 'fats' => 20,
                 'carbohydrates' => 10,
                 'quantity' => 400,
+                'dish_image' => 'dish1.png',
                 'ingredients' => [
                     ['ingredient_id' => 1, 'quantity' => '300 gramos'],
                     ['ingredient_id' => 2, 'quantity' => '100 gramos'],
@@ -39,6 +40,7 @@ class DishSeeder extends Seeder
                 'fats' => 15,
                 'carbohydrates' => 30,
                 'quantity' => 350,
+                'dish_image' => 'dish2.png',
                 'ingredients' => [
                     ['ingredient_id' => 3, 'quantity' => '300 gramos'],
                     ['ingredient_id' => 5, 'quantity' => '50 gramos'],
@@ -53,6 +55,7 @@ class DishSeeder extends Seeder
                 'fats' => 6,
                 'carbohydrates' => 60,
                 'quantity' => 400,
+                'dish_image' => 'dish3.png',
                 'ingredients' => [
                     ['ingredient_id' => 4, 'quantity' => '250 gramos'],
                     ['ingredient_id' => 5, 'quantity' => '150 gramos'],
@@ -67,6 +70,7 @@ class DishSeeder extends Seeder
                 'fats' => 10,
                 'carbohydrates' => 45,
                 'quantity' => 400,
+                'dish_image' => 'dish4.png',
                 'ingredients' => [
                     ['ingredient_id' => 3, 'quantity' => '200 gramos'],
                     ['ingredient_id' => 11, 'quantity' => '200 gramos'],
@@ -81,6 +85,7 @@ class DishSeeder extends Seeder
                 'fats' => 14,
                 'carbohydrates' => 40,
                 'quantity' => 380,
+                'dish_image' => 'dish5.png',
                 'ingredients' => [
                     ['ingredient_id' => 13, 'quantity' => '200 gramos'],
                     ['ingredient_id' => 15, 'quantity' => '175 gramos'],
@@ -96,6 +101,7 @@ class DishSeeder extends Seeder
                 'fats' => 16,
                 'carbohydrates' => 30,
                 'quantity' => 350,
+                'dish_image' => 'dish6.png',
                 'ingredients' => [
                     ['ingredient_id' => 17, 'quantity' => '300 gramos'],
                     ['ingredient_id' => 18, 'quantity' => '50 gramos'],
@@ -110,6 +116,7 @@ class DishSeeder extends Seeder
                 'fats' => 15,
                 'carbohydrates' => 35,
                 'quantity' => 300,
+                'dish_image' => 'dish7.png',
                 'ingredients' => [
                     ['ingredient_id' => 20, 'quantity' => '200 gramos'],
                     ['ingredient_id' => 21, 'quantity' => '100 gramos'],
@@ -124,6 +131,7 @@ class DishSeeder extends Seeder
                 'fats' => 10,
                 'carbohydrates' => 45,
                 'quantity' => 400,
+                'dish_image' => 'dish8.png',
                 'ingredients' => [
                     ['ingredient_id' => 35, 'quantity' => '300 gramos'],
                     ['ingredient_id' => 9, 'quantity' => '20 gramos'],
@@ -142,6 +150,7 @@ class DishSeeder extends Seeder
                 'fats' => 2,
                 'carbohydrates' => 50,
                 'quantity' => 300,
+                'dish_image' => 'dish9.png',
                 'ingredients' => [
                     ['ingredient_id' => 36, 'quantity' => '200 gramos'],
                     ['ingredient_id' => 21, 'quantity' => '100 gramos'],
@@ -156,6 +165,7 @@ class DishSeeder extends Seeder
                 'fats' => 10,
                 'carbohydrates' => 40,
                 'quantity' => 350,
+                'dish_image' => 'dish10.png',
                 'ingredients' => [
                     ['ingredient_id' => 36, 'quantity' => '200 gramos'],
                     ['ingredient_id' => 21, 'quantity' => '100 gramos'],
@@ -170,6 +180,7 @@ class DishSeeder extends Seeder
                 'fats' => 8,
                 'carbohydrates' => 50,
                 'quantity' => 300,
+                'dish_image' => 'dish11.png',
                 'ingredients' => [
                     ['ingredient_id' => 6, 'quantity' => '200 gramos'],
                     ['ingredient_id' => 21, 'quantity' => '100 gramos'],
@@ -184,6 +195,7 @@ class DishSeeder extends Seeder
                 'fats' => 6,
                 'carbohydrates' => 35,
                 'quantity' => 300,
+                'dish_image' => 'dish12.png',
                 'ingredients' => [
                     ['ingredient_id' => 33, 'quantity' => '200 gramos'],
                     ['ingredient_id' => 21, 'quantity' => '100 gramos'],
@@ -198,6 +210,7 @@ class DishSeeder extends Seeder
                 'fats' => 12,
                 'carbohydrates' => 40,
                 'quantity' => 350,
+                'dish_image' => 'dish13.png',
                 'ingredients' => [
                     ['ingredient_id' => 13, 'quantity' => '200 gramos'],
                     ['ingredient_id' => 11, 'quantity' => '100 gramos'],
@@ -217,6 +230,7 @@ class DishSeeder extends Seeder
                 'fats' => $dishData['fats'],
                 'carbohydrates' => $dishData['carbohydrates'],
                 'quantity' => $dishData['quantity'],
+                'dish_image' => $dishData['dish_image'],
             ]);
 
             // Verifica si hay ingredientes y adjúntalos al plato
