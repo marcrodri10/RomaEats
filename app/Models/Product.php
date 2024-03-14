@@ -21,6 +21,7 @@ class Product extends Model
         'user_product_nutri_score',
         'user_product_image',
         'user_id',
+        'user_product_price'
     ];
 
 }

@@ -24,6 +24,11 @@
                     </div>
                     <div class="flex flex-col justify-center">
                         <h2 class="text-center mb-5 text-lg font-bold text-gray-900 dark:text-white">
+                            Precio</h2>
+                            <p class="text-center">{{ $product->user_product_price }}€</p>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <h2 class="text-center mb-5 text-lg font-bold text-gray-900 dark:text-white">
                             Código de barras</h2>
                             <p class="text-center">{{ $product->user_product_code }}</p>
                     </div>

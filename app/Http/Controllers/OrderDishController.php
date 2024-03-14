@@ -39,13 +39,12 @@ class OrderDishController extends Controller
                 foreach($requestData as $data => $order){
                     $requestData[$data]['user_id'] = $userId;
                     $requestData[$data]['dish_id'] = (int)substr($data, strlen($data) - 1, strlen($data));
-
                     $dbData = [
                         'order_dish_code' => $orderDishCode,
                         'user_id' => $userId,
-                        'dish_id' => (int)substr($data, 7),
-                        'quantity' => $requestData[$data]['quantity'],
-                        'price' => (float)$requestData[$data]['price'],
+                        'dish_id' => $order['id'],
+                        'quantity' => $order['quantity'],
+                        'price' => (float)$order['price'],
                     ];
                     $amount += $requestData[$data]['quantity'] * (float)$requestData[$data]['price'];
 

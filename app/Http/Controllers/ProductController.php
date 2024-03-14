@@ -37,6 +37,7 @@ class ProductController extends Controller
                 $data = $response->json();
 
                 $imageUrl = substr($data['product']['image_url'], strpos($data['product']['image_url'], 'products') + strlen('products') + 1);
+                $price = rand(100, 400) / 100;
                 if(isset($data['product']['product_name_es'])){
                     $name = $data['product']['product_name_es'];
                 }
@@ -57,6 +58,7 @@ class ProductController extends Controller
                     'user_product_store_location' => $stores,
                     'user_product_nutri_score' => $data['product']['nutriscore_grade'],
                     'user_product_image' => $imageUrl,
+                    'user_product_price' => $price,
                 ];
                 $user = Auth::user();
 

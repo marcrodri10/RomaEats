@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('user_product_store_location');
             $table->string('user_product_nutri_score');
             $table->string('user_product_image');
-
+            $table->float('user_product_price');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
