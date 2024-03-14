@@ -19,11 +19,11 @@
     <x-shoping-cart-modal></x-shoping-cart-modal>
     <main class="products-div mt-32 flex justify-center flex-col items-center">
         <div class="user-products-container flex justify-center flex-col items-center" id="products-div">
-            <div class="links">
-                <a class="underline" href="{{route('recipe.index')}}">Mis recetas</a>
-                <a class="underline" href="{{route('mydishes.index')}}">Mis platos</a>
+            <div class="links flex gap-10">
+                <a class=" text-lg hover:text-green-600" href="{{ route('recipe.index') }}">Mis recetas</a>
+                <a class="underline text-lg hover:text-green-600" href="{{ route('mydishes.index') }}">Mis platos</a>
             </div>
-            <h1 class="underline">My dishes</h1>
+            <h1 class="title mt-6">Mis platos</h1>
 
             @if (session('product_add') === 'added')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
@@ -44,9 +44,25 @@
             @else
                 <div class="products width-80 flex flex-wrap justify-center items-center" id="products">
 
-                    @foreach ($recipes as $recipe)
-                        <x-product-card id="{{ $recipe->user_recipe_id }}"
-                            href="mydishes.show">{{ $recipe->user_recipe_name }}</x-product-card>
+                    @foreach ($userDishes as $userDish)
+                        <x-default-card id="user-dish{{ $userDish->user_dish_id }}"
+                            href="{{ route('mydishes.show', ['id' => $userDish->user_dish_id]) }}">
+
+                            <div class="user-dish-info">
+                                <div class="">
+                                    <h2 class="mb-5 text-2xl underline font-bold tracking-tight text-gray-900 dark:text-white">
+                                        Plato {{ $userDish->user_dish_id }}</h2>
+                                </div>
+                                <div class="">
+                                    <h2 class="mb-5 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                        Plato {{ $userDish->user_dish_name }}</h2>
+                                </div>
+                                <div class="">
+                                    <h2 class="mb-5 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                        Plato {{ $userDish->user_dish_name }}</h2>
+                                </div>
+                            </div>
+                        </x-default-card>
                     @endforeach
 
                 </div>
@@ -160,13 +176,17 @@
 
                         </div>
                         @if (sizeof($recipes) != 0)
-                    <label for="recipes">Receta</label>
-                        <select name="recipes" id="recipes" class="mt-6">
-                        @foreach($recipes as $recipe)
 
-                            <option value="{{$recipe->user_recipe_id}}">{{$recipe->user_recipe_name}}</option>
-                        @endforeach
-                        </select>
+                        <div class="select-recipe mt-6">
+                            <select id="countries" class="h-14 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5">
+                                <option value="" disabled selected>Selecciona una receta</option>
+                                @foreach($recipes as $recipe)
+
+                                <option value="{{$recipe->user_recipe_id}}">{{$recipe->user_recipe_name}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+
                     @endif
                     </div>
 

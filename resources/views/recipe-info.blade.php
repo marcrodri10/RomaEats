@@ -11,45 +11,45 @@
     <x-navbar></x-navbar>
     <x-shoping-cart-modal></x-shoping-cart-modal>
     <main>
-
-        <div class="full w-100 mt-32 flex justify-center">
-            <div class="product w-90 flex items-center">
-                <div class="w-100 flex flex-col lg:flex-row ml-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-5">
-                    <div class="lg:w-50 w-100 flex flex-col justify-center p-2">
-                        <div class="flex flex-col gap-6 items-center">
-
-                            @foreach ($recipe->toArray() as $key => $value)
-                                @if (!in_array($key,  ['created_at', 'updated_at', 'user_recipe_id', 'user_id']) && $value !== "")
-                                    <div class="product-data flex">
-                                        <h2 class="text-xl font-bold">
-                                            {{ ucfirst(explode('_', $key)[sizeof(explode('_', $key)) - 1]) }}</h2>
-                                        <p class="text-xl">: {{ $value }}</p>
-                                    </div>
-                                @endif
-                            @endforeach
-                            <h2 class="mb-5 text-xl font-bold tracking-tight text-gray-900 dark:text-white"></h2>
+        <x-full-card>
+            <div
+                class="w-100 p-6 flex flex-col ml-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 gap-10">
+                <div class="title flex justify-center">
+                    <h1 class="text-2xl">Detalles de la receta</h1>
+                </div>
+                <div class="recipe-info  flex flex-col lg:flex-row gap-10">
+                    <div class="data flex flex-col gap-10 w-1/2">
+                        <div class="flex flex-col items-center">
+                            <h2 class=" mb-5 text-lg font-bold text-gray-900 dark:text-white">
+                                Receta</h2>
+                                <p class="">{{ $recipe->user_recipe_id }}</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <h2 class=" mb-5 text-lg font-bold text-gray-900 dark:text-white">
+                                Nombre</h2>
+                                <p class="">{{ $recipe->user_recipe_name }}</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <h2 class=" mb-5 text-lg font-bold text-gray-900 dark:text-white">
+                                Descripción</h2>
+                                <p class="">{{ $recipe->user_recipe_description }}</p>
                         </div>
                     </div>
-                    <div class="lg:w-50 w-100 flex flex-col justify-center p-2">
-                        <div class="flex flex-col gap-6 items-center">
-                            <h1 class="text-xl">Pasos de la receta</h1>
-                            @foreach ($steps as $step => $val)
-                                @foreach($val->toArray() as $key => $value)
-                                @if (!in_array($key,  ['created_at', 'updated_at', 'user_recipe_id', 'user_id', 'recipe_steps_id']) && $value !== "")
-                                    <div class="product-data flex">
-                                        <p class="text-xl">Paso {{ $step + 1}}:</p>
-                                        <p class="text-xl">&nbsp; {{$value }}</p>
-                                    </div>
-                                @endif
-                                @endforeach
-                            @endforeach
-                            <h2 class="mb-5 text-xl font-bold tracking-tight text-gray-900 dark:text-white"></h2>
+                    <div class="steps flex flex-col gap-10 w-1/2">
+                        @foreach ($steps as $step)
+                        <div class="flex flex-col items-center">
+                            <h2 class=" mb-5 text-lg font-bold text-gray-900 dark:text-white">
+                                Paso {{$loop->index + 1}}</h2>
+                                <p class="">{{ $step->recipe_step_description }}</p>
                         </div>
+
+                        @endforeach
                     </div>
+
                 </div>
             </div>
+        </x-full-card>
 
-        </div>
 
     </main>
 

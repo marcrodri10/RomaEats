@@ -13,7 +13,7 @@
 
     <div class="cart-message w-100 flex flex-col justify-start items-center gap-5 ">
         <h2>Todavía no hay rutas</h2>
-        <x-primary-button value="see-more" class="ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">
+        <x-primary-button type="button" value="see-more" class="ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">
             {{ __('Añadir rutas') }}
         </x-primary-button>
     </div>

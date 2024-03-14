@@ -18,11 +18,33 @@
     <x-navbar></x-navbar>
     <x-shoping-cart-modal></x-shoping-cart-modal>
     <main class="orders-div mt-32 flex justify-center flex-col items-center" id="products-div">
-        <h1 class="underline">My orders</h1>
+        <h1 class="title">Mis pedidos</h1>
         @if(sizeof($orders) > 0)
             <div class="w-90 card-group">
                 @foreach($orders as $order)
-                    <x-product-card id="{{$order->order_id}}" href="order.show">{{$order->order_dish_code}}</x-product-card>
+                    <x-default-card href="{{ route('order.show', ['id' => $order->order_id]) }}" id="order{{$order->order_id}}">
+                        <div class="dish-info p-3 flex flex-col gap-10">
+                            <div class="h-100">
+                                <h2 class="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                    {{ $order->order_dish_code }}</h2>
+                            </div>
+                            <div class="h-1/4">
+                                <h2 class="mb-5 text-lg font-bold text-gray-900 dark:text-white">
+                                    Fecha del pedido</h2>
+                                    <p>{{ $order->order_date }}</p>
+                            </div>
+                            <div class="h-1/4">
+                                <h2 class="mb-5 text-lg font-bold text-gray-900 dark:text-white">
+                                    Estado del pedido</h2>
+                                    <p>{{ $order->order_status }}</p>
+                            </div>
+                            <div class="h-1/4">
+                                <h2 class="mb-5 text-lg font-bold text-gray-900 dark:text-white">
+                                    Dirección del pedido</h2>
+                                    <p>{{ $order->order_address }}</p>
+                            </div>
+                        </div>
+                    </x-default-card>
                 @endforeach
             </div>
         @else

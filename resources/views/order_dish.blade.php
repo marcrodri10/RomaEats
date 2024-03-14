@@ -38,13 +38,13 @@
                             <div class="name w-50">
                                 <x-input-label for="name" :value="__('Nombre')" />
                                 <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"
-                                    :value="old('name')" required autofocus />
+                                    value="{{auth()->user()->name}}" required autofocus />
                                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
                             </div>
                             <div class="surname w-50">
                                 <x-input-label for="surname" :value="__('Apellidos')" />
                                 <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname"
-                                    :value="old('surname')" required autofocus />
+                                    value="{{auth()->user()->surname}}" required autofocus />
                                 <x-input-error :messages="$errors->get('surname')" class="mt-2" />
                             </div>
 
@@ -52,7 +52,7 @@
                         <div class="mt-4">
                             <x-input-label for="address" :value="__('Address')" />
                             <x-text-input id="address" class="block mt-1 w-full" type="text" name="address"
-                                :value="old('cvv')" required autofocus />
+                                value="{{auth()->user()->address ? auth()->user()->address : ''}}" required autofocus />
                             <x-input-error :messages="$errors->get('address')" class="mt-2" />
                         </div>
                         <div class="mt-4 flex gap-10">
@@ -81,34 +81,42 @@
                     </div>
                     <div class="payment bg-gray-200 p-4 flex flex-col justify-center">
                         <p class="text-xl">Pago</p>
+                        @if(sizeof($userCards) > 0)
+                            <div class="cards mt-6">
+                                @foreach ($userCards as $card)
+                                    <x-input-radio class="card-radio" name="{{$card->card_id}}" id="{{$card->card_id}}"
+                                        value="{{$card->card_id}}">Tarjeta {{$card->card_number}}</x-input-radio>
+                                @endforeach
+                            </div>
+                        @endif
                         <div class="mt-4">
                             <x-input-label for="card" :value="__('Número de tarjeta')" />
                             <x-text-input id="card" class="block mt-1 w-full" type="text" name="card"
-                                :value="old('card')" required />
+                                value="" required />
                             <x-input-error :messages="$errors->get('card')" class="mt-2" />
                         </div>
                         <div class="mt-4 flex gap-10">
                             <div class=" w-50">
-                                <x-input-label for="date" :value="__('Fecha de vencimiento')" />
-                                <x-text-input id="date" class="block mt-1 w-full" type="text" name="date"
-                                    :value="old('date')" required autofocus />
+                                <x-input-label for="validation_date" :value="__('Fecha de vencimiento')" />
+                                <x-text-input id="validation_date" class="block mt-1 w-full" type="text" name="validation_date"
+                                value="" required autofocus maxlength="0"/>
                                 <x-input-error :messages="$errors->get('date')" class="mt-2" />
                             </div>
                             <div class=" w-50">
-                                <x-input-label for="cvv" :value="__('Cvv')" />
+                                <x-input-label for="cvv" :value="__('CVV')" />
                                 <x-text-input id="surname" class="block mt-1 w-full" type="text" name="cvv"
-                                    :value="old('cvv')" required autofocus />
+                                value="" required autofocus />
                                 <x-input-error :messages="$errors->get('cvv')" class="mt-2" />
                             </div>
                         </div>
                         <div class="mt-4">
                             <x-input-label for="name" :value="__('Nombre del titular')" />
                             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"
-                                :value="old('name')" required autofocus autocomplete="name" />
+                            value="" required autofocus autocomplete="name" />
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
                         <!-- Email Address -->
-
+                        <x-input-checkbox name="save_card" class="mt-6">Guardar método de pago para futuros pagos.</x-input-checkbox>
                     </div>
 
                     <div class="flex justify-center mt-6 ">
@@ -116,9 +124,9 @@
                         <x-primary-button type="submit" value="pay"
                             class="w-50 ms-3 bg-green-700 pt-4 pb-4 pl-10 pr-10 flex justify-center"
                             name="payment" value="pay">Pagar</x-primary-button>
-                        <x-primary-button type="submit" value="cancel"
+                        <x-primary-anchor href="{{route('dishes')}}" value="cancel"
                             class="w-50 ms-3 bg-red-800 pt-4 pb-4 pl-10 pr-10 flex justify-center"
-                            name="payment" value="cancel">Cancelar</x-primary-button>
+                            name="payment" value="cancel">Cancelar</x-primary-anchor>
                     </div>
             </form>
 
@@ -129,7 +137,7 @@
 
             @foreach ($userOrder as $order)
                 <div class="dish-info flex justify-between items-center mb-4">
-                    <img src="../img/{{ $order->dish_image }}" alt="" class="h-14 w-auto">
+                    <img src="../img/{{ $order->dish_image }}" alt="" class="h-14 w-20">
                     <h1 class="text-center">{{ $order->dish_name }} (x{{ $order->user_quantity }})</h1>
                     <p>{{ $order->dish_price }}€</p>
                 </div>

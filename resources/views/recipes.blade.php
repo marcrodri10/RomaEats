@@ -19,11 +19,11 @@
     <x-shoping-cart-modal></x-shoping-cart-modal>
     <main class="products-div mt-32 flex justify-center flex-col items-center">
         <div class="user-products-container flex justify-center flex-col items-center w-90" id="products-div">
-            <div class="links">
-                <a class="underline" href="{{route('recipe.index')}}">Mis recetas</a>
-                <a class="underline" href="{{route('mydishes.index')}}">Mis platos</a>
+            <div class="links flex gap-10">
+                <a class="underline text-lg hover:text-green-600" href="{{ route('recipe.index') }}">Mis recetas</a>
+                <a class="text-lg hover:text-green-600" href="{{ route('mydishes.index') }}">Mis platos</a>
             </div>
-            <h1 class="underline">My recipes</h1>
+            <h1 class="title mt-6">Mis recetas</h1>
 
             @if (session('product_add') === 'added')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
@@ -45,8 +45,23 @@
                 <div class="w-90 card-group" id="products">
 
                     @foreach ($recipes as $recipe)
-                        <x-product-card id="{{ $recipe->user_recipe_id }}"
-                            href="recipe.show">{{ $recipe->user_recipe_name }}</x-product-card>
+                    <x-default-card href="{{ route('recipe.show', ['id' => $recipe->user_recipe_id]) }}" id="recipe{{ $recipe->user_recipe_id}}">
+                        <div class="recipe-info flex flex-col gap-10">
+                            <div class="">
+                                <h2 class="mb-5 text-3xl underline font-bold tracking-tight text-gray-900 dark:text-white">
+                                    Receta {{ $recipe->user_recipe_id }}</h2>
+                            </div>
+                            <div class="">
+                                <h2 class="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                    {{ $recipe->user_recipe_name }}</h2>
+                            </div>
+                            <div class="">
+                                <h2 class="mb-5 text-xl  text-gray-900 dark:text-white">
+                                    {{ $recipe->user_recipe_description }}</h2>
+                            </div>
+                        </div>
+                    </x-default-card>
+
                     @endforeach
 
                 </div>
@@ -62,7 +77,7 @@
 
         <div class="product-form w-100 flex justify-center">
             <form action="{{ route('recipe.save') }}" method="post"
-                class="width-80 absolute top-0 mt-32 hidden p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+                class="width-80 absolute top-0 mt-32 hidden p-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
                 id="recipe-form">
                 @csrf
                 <div class="flex justify-end items-center">
@@ -81,56 +96,56 @@
                 </div>
                 <div class="content-form mt-10 flex flex-col">
                     <div class="steps-and-products flex">
-                        <div class="recipes-inputs w-1/2">
-                            <div class="relative">
-                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                    </svg>
+                        <div class="recipes w-1/2">
+                            <div class="recipes-inputs">
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                        </svg>
+                                    </div>
+                                    <input type="search" id="search-product"
+                                        class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  focus:border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Nombre de la receta" value="" name="recipe_name"
+                                        autocomplete="off" required>
+
                                 </div>
-                                <input type="search" id="search-product"
-                                    class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  focus:border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Nombre de la receta" value="" name="recipe_name" autocomplete="off" required>
+                                <div class="relative mt-6">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                        </svg>
+                                    </div>
+                                    <input type="search" id="search-product"
+                                        class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  focus:border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Descripción" value="" name="recipe_description"
+                                        autocomplete="off" required>
+
+                                </div>
+                            </div>
+                            <div class="btn-group flex">
+                                <x-button-with-icon id="add-step" value="add" type="button"
+                                    class="ms-3 bg-green-700 pt-3 pb-3 pl-7 pr-7 flex justify-center mt-8 modal">
+                                    {{ __('Añadir Paso') }}
+                                </x-button-with-icon>
+                            </div>
+                        </div>
+                        <div class="products-recipe w-1/2">
+                            <div class="product-selects flex flex-col">
 
                             </div>
-                            <div class="relative mt-6">
-                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                    </svg>
-                                </div>
-                                <input type="search" id="search-product"
-                                    class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  focus:border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Descripción" value="" name="recipe_description" autocomplete="off" required>
-
-                            </div>
-
+                            <x-button-with-icon id="add-product" value="add" type="button"
+                                class="ms-3 bg-green-700 pt-3 pb-3 pl-7 pr-7 flex justify-center mt-8 modal">
+                                {{ __('Añadir Producto') }}
+                            </x-button-with-icon>
                         </div>
 
-                        <div class="recipe-ingredients w-1/2 flex items-center flex-col">
-                            {{-- @if(sizeof($products) != 0)
-                                <select name="ingredients" id="ingredients">
-                                    @foreach($products as $product)
-                                        <option value="">{{$product->user_product_name}}</option>
-                                    @endforeach
-                                </select>
-                            @endif --}}
-                        </div>
                     </div>
-                    <div class="btn-group flex">
-                        <x-button-with-icon id="add-step" value="add" type="button"
-                            class="ms-3 bg-green-700 pt-3 pb-3 pl-7 pr-7 flex justify-center mt-8 modal">
-                            {{ __('Añadir Paso') }}
-                        </x-button-with-icon>
-                        <x-button-with-icon id="add-product" value="add" type="button"
-                            class="ms-3 bg-green-700 pt-3 pb-3 pl-7 pr-7 flex justify-center mt-8 modal">
-                            {{ __('Añadir Producto') }}
-                        </x-button-with-icon>
-                    </div>
+
                 </div>
 
             </form>

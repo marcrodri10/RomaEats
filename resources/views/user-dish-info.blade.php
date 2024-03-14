@@ -11,7 +11,36 @@
     <x-navbar></x-navbar>
     <x-shoping-cart-modal></x-shoping-cart-modal>
     <main>
-        <x-card-info :array="$dish" img=0 :exceptions="['created_at', 'updated_at', 'user_dish_id', 'user_id', 'user_recipe_id']"></x-card-info>
+        <x-full-card>
+            <div class="w-100 flex flex-col lg:flex-row ml-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+                <div class="dish-data flex flex-col gap-8 lg:w-50 w-100 p-2">
+                    <p><span class="text-2xl font-bold">{{ $dish->user_dish_name }}</span> <span
+                            class="text-xl">({{ $dish->quantity }}g)</span></p>
+
+                    <div class="mt-6 nutrients flex w-100 justify-around flex-wrap bg-green-100 rounded">
+                        <div class="text-num-col">
+                            <p>{{ $dish->calories }}g</p>
+                            <p>Calorías</p>
+                        </div>
+                        <div class="text-num-col">
+                            <p>{{ $dish->proteins }}g</p>
+                            <p>Proteínas</p>
+                        </div>
+                        <div class="text-num-col">
+                            <p>{{ $dish->carbohydrates }}g</p>
+                            <p>Carbohidratos</p>
+                        </div>
+                        <div class="text-num-col">
+                            <p>{{ $dish->fats }}g</p>
+                            <p>Grasas</p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </x-full-card>
     </main>
 
 

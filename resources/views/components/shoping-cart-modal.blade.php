@@ -10,8 +10,18 @@
             <span class="sr-only">Close modal</span>
         </button>
     </div>
+    <div class="carts-links flex justify-around mt-6 mb-6">
+        <p class="underline text-lg hover:text-green-600 cursor-pointer cart-name" id="dish-cart-link">Platos</p>
+        <p class=" text-lg hover:text-green-600 cursor-pointer cart-name" id="product-cart-link">Productos</p>
+    </div>
+    <div class="dish-cart-message w-100 flex flex-col justify-start items-center gap-5" id="dish-cart">
+        <h2>Tu carrito está vacío</h2>
+        <x-primary-button type="button" value="see-more" class="ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">
+            {{ __('Seguir Comprando') }}
+        </x-primary-button>
+    </div>
 
-    <div class="cart-message w-100 flex flex-col justify-start items-center gap-5 ">
+    <div class="product-cart-message w-100 hidden flex flex-col justify-start items-center gap-5 " id="product-cart">
         <h2>Tu carrito está vacío</h2>
         <x-primary-button type="button" value="see-more" class="ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">
             {{ __('Seguir Comprando') }}
