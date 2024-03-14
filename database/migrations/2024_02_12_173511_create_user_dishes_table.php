@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('user_dishes', function (Blueprint $table) {
             $table->id('user_dish_id');
             $table->string('user_dish_name');
-            $table->string('calories');
-            $table->string('proteins');
-            $table->string('carbohydrates');
-            $table->string('fats');
+            $table->integer('calories');
+            $table->integer('proteins');
+            $table->integer('carbohydrates');
+            $table->integer('fats');
             $table->integer('quantity');
 
             $table->unsignedBigInteger('user_recipe_id');

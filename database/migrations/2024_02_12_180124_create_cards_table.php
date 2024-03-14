@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('card_number');
             $table->string('card_name');
             $table->string('cvv');
-
+            $table->string('validation_date');
+            $table->boolean('save_card');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
