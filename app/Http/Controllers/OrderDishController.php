@@ -13,11 +13,10 @@ class OrderDishController extends Controller
 
     //
     function index(){
-        $userOrder = OrderDish::join('dishes', 'order_dish.dish_id', '=', 'dishes.dish_id')
-            ->select('order_dish.*', 'dishes.*')
+        $userOrder = OrderDish::select('order_dish.*')
             ->where('order_dish_code', session('order_dish_code'))
             ->selectRaw('order_dish.quantity as user_quantity');
-
+        dd($userOrder->get());
         $userCards = Card::where('user_id', Auth::user()->id)
         ->where('save_card', 1)
         ->get();
@@ -46,6 +45,7 @@ class OrderDishController extends Controller
                         'quantity' => $order['quantity'],
                         'price' => (float)$order['price'],
                     ];
+
                     $amount += $requestData[$data]['quantity'] * (float)$requestData[$data]['price'];
 
                     OrderDish::create($dbData);

@@ -18,8 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->unsignedBigInteger('dish_id');
+            $table->unsignedBigInteger('dish_id')->nullable();
             $table->foreign('dish_id')->references('dish_id')->on('dishes')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->foreign('user_product_id')->references('user_product_id')->on('user_products')->onDelete('cascade')->onUpdate('cascade');
 
             $table->integer('quantity');
             $table->float('price');
