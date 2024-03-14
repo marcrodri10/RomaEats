@@ -67,10 +67,18 @@
 .navbar{
     height: 10vh;
 }
-.product{
+.navbar div{
+    height: 10vh;
+}
+.full-card{
     height: 90vh;
 }
-.p{
+.general-margin{
     margin-top: 10vh;
 }
 
+
+.title{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
