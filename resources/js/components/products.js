@@ -111,9 +111,10 @@ products.addEventListener('click', (e) => {
             id: id,
             name: productInfo.children[0].textContent.trim(),
             quantity: input.value,
+            price: productInfo.children[1].textContent.trim(),
             img: img
         }
-        library.createProductShopCartCard(userShopCart, cartMessage)
+        library.createShopCartCard(userShopCart, cartMessage)
 
         localStorage.setItem('userShopCart', JSON.stringify(userShopCart));
 
@@ -150,10 +151,11 @@ products.addEventListener('click', (e) => {
             id: id,
             name: productInfo.children[0].textContent.trim(),
             quantity: button.parentNode.children[1].value,
+            price: productInfo.children[1].textContent.trim(),
             img: img
         }
 
-        library.createProductShopCartCard(userShopCart, cartMessage)
+        library.createShopCartCard(userShopCart, cartMessage)
 
         localStorage.setItem('userShopCart', JSON.stringify(userShopCart));
 
@@ -314,72 +316,6 @@ scanBtn.addEventListener('click', async (e) => {
 });
 
 
-
-
-/*
-searchForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    let formData = new FormData(searchForm);
-    let dataObject = Object.fromEntries(formData.entries());
-    console.log(dataObject);
-    if (dataObject.search != "") {
-
-        fetch(`https://es.openfoodfacts.org/api/v2/product/${dataObject.search}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                const imageDiv = document.createElement("div");
-                imageDiv.className = "img";
-                const image = document.createElement('img');
-                image.src = data.product.image_front_thumb_url;
-
-                imageDiv.appendChild(image);
-                productoDiv.appendChild(imageDiv);
-
-                const info = document.createElement('div');
-                info.className = 'info';
-                const dataArray = ['product_name_es', 'quantity'];
-                let dataInfo = {};
-                for (let element in data.product) {
-                    if (dataArray.includes(element)) {
-                        dataInfo[element] = data.product[element];
-                    }
-                }
-                console.log(dataInfo);
-                const h1 = document.createElement('h1');
-
-                for (let element in dataInfo) {
-                    if (dataInfo[element] != '' || dataInfo[element].length != 0) {
-                        h1.textContent += dataInfo[element] + ' - ';
-                    }
-
-                }
-                h1.textContent = h1.textContent.slice(0, h1.textContent.length - 3)
-                info.appendChild(h1);
-
-
-                const p = document.createElement('p');
-                p.textContent = `Código de barras: ${data.product.id}`;
-                info.appendChild(p);
-                productoDiv.appendChild(info);
-                let cat = "";
-                if (data.product.categories_imported == null || data.product.categories_imported == undefined) cat = "";
-                else cat = data.product.categories_imported
-                const finalData = {
-                    user_product_code: data.product.id,
-                    user_product_name: data.product.product_name_es,
-                    user_product_brand: data.product.brands,
-                    user_product_category: cat,
-                    user_product_store_location: data.product.stores,
-                    user_product_nutri_score: data.product.nutriscore_grade
-                }
-
-                //library.sendDataToPhp('/save-product', finalData);
-            })
-    }
-
-});
- */
 async function getProduct(id) {
 
     try {

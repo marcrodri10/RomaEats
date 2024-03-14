@@ -92,11 +92,8 @@ export function generatePublicPath() {
 
 export function createShopCartCard(shopCart, div) {
     for (let cart in shopCart) {
-        console.log('sjsjjs');
         if (shopCart[cart].hasOwnProperty('img')) {
-            console.log('sii');
-
-            const { id, name, quantity, img } = shopCart[cart];
+            const { id, name, quantity, price, img } = shopCart[cart];
             const productCartCard = createElement('div', { className: 'flex w-90 justify-around items-center gap-3 product-cart-card' });
             productCartCard.innerHTML = `
                     <div class="w-40">
@@ -104,6 +101,7 @@ export function createShopCartCard(shopCart, div) {
                     </div>
                     <div class="flex-col w-40">
                         <p>${name}</p>
+                        <p>${price}</p>
                         <p>${quantity}</p>
                     </div>
                 `;

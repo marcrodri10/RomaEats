@@ -49,11 +49,14 @@
                                     <img src="https://images.openfoodfacts.org/images/products/{{ $product->user_product_image }}"
                                         alt="dish" class="w-auto h-100 dish-image">
                                 </div>
-                                <div class="product-info w-100 h-25 flex justify-center items-center">
+                                <div class="product-info w-100 h-25 flex flex-col justify-center items-center">
 
                                     <div class="h-1/4">
                                         <h2 class="text-center mb-5 text-lg font-bold text-gray-900 dark:text-white">
                                             {{ $product->user_product_name }} </h2>
+                                    </div>
+                                    <div class="h-1/4 flex items-center ">
+                                        <p class=" font-normal text-gray-700 dark:text-gray-400">{{ $product->user_product_price }}€</p>
                                     </div>
                                 </div>
 
