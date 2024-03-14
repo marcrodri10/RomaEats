@@ -98,11 +98,8 @@ loader.load().then(async () => {
                         }
                     }
                 }
-                console.log(result.routes[0].legs[2].end_location);
-                console.log(result.routes[0].legs[2].end_location.lat(), result.routes[0].legs[2].end_location.lng());
-                console.log(routePath.length);
-                console.log(time);
-                const routeProgress = parseFloat(5 / routePath.length).toFixed(3);
+
+                const routeProgress = parseFloat(time / routePath.length).toFixed(3);
                 console.log(routeProgress);
 
                 let i = 0;
