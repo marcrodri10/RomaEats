@@ -21,4 +21,9 @@ class DishController extends Controller
 
         return view('dish-full', ['dish' => $dish]);
     }
+    function getAllDishes(){
+        $dishes = Dish::orderBy('dish_name', 'ASC')->get();
+
+        return $dishes;
+    }
 }

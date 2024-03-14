@@ -37,7 +37,12 @@ class ProductController extends Controller
                 $data = $response->json();
 
                 $imageUrl = substr($data['product']['image_url'], strpos($data['product']['image_url'], 'products') + strlen('products') + 1);
-
+                if(isset($data['product']['product_name_es'])){
+                    $name = $data['product']['product_name_es'];
+                }
+                else if($data['product']['product_name_en']){
+                    $name = $data['product']['product_name_en'];
+                }
                 if (isset($data['product']['categories_imported'])) {
                     $category = $data['product']['categories_imported'];
                 } else $category = '';
@@ -46,7 +51,7 @@ class ProductController extends Controller
                 } else $stores = '';
                 $datos = [
                     'user_product_code' => $data['product']['id'],
-                    'user_product_name' => $data['product']['product_name_es'],
+                    'user_product_name' => $name,
                     'user_product_brand' => $data['product']['brands'],
                     'user_product_category' => $category,
                     'user_product_store_location' => $stores,
