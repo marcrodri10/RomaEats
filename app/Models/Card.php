@@ -17,5 +17,7 @@ class Card extends Model
         'card_number',
         'card_name',
         'cvv',
+        'validation_date',
+        'save_card',
     ];
 }
