@@ -67,20 +67,19 @@ if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && libra
     dishes.forEach(element => {
         pageDishesIds.push(element.id)
     })
-    let userShopCartInPage = {}
     for (let cart in userShopCart) {
         if (pageDishesIds.includes(cart)) {
-            console.log(cart);
-            const element = document.querySelector('#' + cart);
-            const value = element.querySelector('#counter-input').value = userShopCart[cart].quantity;
-            const inputs = element.querySelector('.product-quantity').classList.remove('hidden');
-            userShopCartInPage[cart] = userShopCart[cart];
+            if(cart.includes('dish')){
+                console.log(cart);
+                const element = document.querySelector('#' + cart);
+                const value = element.querySelector('#counter-input').value = userShopCart[cart].quantity;
+                const inputs = element.querySelector('.product-quantity').classList.remove('hidden');
+            }
         }
 
     }
     cartMessage.innerHTML = ``;
-    console.log(userShopCartInPage);
-    library.createShopCartCard(userShopCartInPage, cartMessage)
+    library.createShopCartCard(userShopCart, cartMessage)
 
     if (!buyBtn) {
         const finishBuyDiv = library.createElement('div', {
@@ -101,6 +100,7 @@ if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && libra
 
         addOrderBtn.addEventListener('click', async () => {
             const response = await library.sendDataToPhp('/addOrder', userShopCart);
+            console.log(response.message);
             if (response.message == 'Saved') window.location.href = '/order';
             else if(response.code == 301)  window.location.href = '/login';
         });

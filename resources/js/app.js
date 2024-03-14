@@ -23,26 +23,8 @@ export let userShopCart = {
 
 };
 
-const cartsLinks = document.querySelector('.carts-links');
-const productCart = document.querySelector('#product-cart');
-const dishCart = document.querySelector('#dish-cart');
 
-cartsLinks.addEventListener('click', (e) => {
-    if(e.target.className.includes('cart-name')){
-        if(e.target.id == 'dish-cart-link'){
-            e.target.classList.add('underline');
-            cartsLinks.children[1].classList.remove('underline');
-            dishCart.classList.remove('hidden');
-            productCart.classList.add('hidden');
-        }
-        else if(e.target.id == 'product-cart-link'){
-            e.target.classList.add('underline');
-            cartsLinks.children[0].classList.remove('underline');
-            productCart.classList.remove('hidden');
-            dishCart.classList.add('hidden');
-        }
-    }
-})
+
 
 if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && library.checkJSON(JSON.parse(localStorage.getItem('userShopCart')))) {
     cartMessage.innerHTML = ``;

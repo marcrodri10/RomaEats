@@ -49,7 +49,15 @@ if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && libra
     userShopCart = JSON.parse(localStorage.getItem('userShopCart'))
     console.log(userShopCart);
     cartMessage.innerHTML = ``;
+    for (let cart in userShopCart) {
+        if (cart.includes('product')) {
+            console.log(cart);
+            const element = document.querySelector('#' + cart);
+            const value = element.querySelector('#counter-input').value = userShopCart[cart].quantity;
+            const inputs = element.querySelector('.product-quantity').classList.remove('hidden');
+        }
 
+    }
     library.createShopCartCard(userShopCart, cartMessage)
 
     if (!buyBtn) {
@@ -78,7 +86,7 @@ if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && libra
 
 }
 
-
+if(products){
 products.addEventListener('click', (e) => {
     const foodDish = e.target.closest('.food-dish');
     let productInfo, buttons;
@@ -182,13 +190,14 @@ products.addEventListener('click', (e) => {
                 cartMessage.innerHTML = ``;
             }
 
-            library.createProductShopCartCard(userShopCart, cartMessage)
+            library.createShopCartCard(userShopCart, cartMessage)
 
             localStorage.setItem('userShopCart', JSON.stringify(userShopCart));
         }
 
     }
 })
+}
 productSearch.addEventListener('input', () => {
     if (productSearch.value.trim().length == 13 && productSearch.value.match(/[*[0-9^]/)) {
 
