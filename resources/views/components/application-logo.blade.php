@@ -6,5 +6,5 @@
         $directoryPath .= '../';
     }
 @endphp
-<img src="{{$directoryPath}}img/romaeats.png" alt="logo" class="w-20 h-20" id="app-logo">
+<img src="{{$directoryPath}}img/romaeats.png" alt="logo" class="w-10 h-10" id="app-logo">
 
