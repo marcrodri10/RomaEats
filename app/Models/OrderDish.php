@@ -17,6 +17,7 @@ class OrderDish extends Model
         'user_id',
         'user_dish_id',
         'dish_id',
+        'product_id',
         'quantity',
         'price',
     ];

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreign('dish_id')->references('dish_id')->on('dishes')->onDelete('cascade')->onUpdate('cascade');
 
             $table->unsignedBigInteger('product_id')->nullable();
-            $table->foreign('user_product_id')->references('user_product_id')->on('user_products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('user_product_id')->on('user_products')->onDelete('cascade')->onUpdate('cascade');
 
             $table->integer('quantity');
             $table->float('price');

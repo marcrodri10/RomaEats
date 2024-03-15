@@ -111,12 +111,12 @@
                         </div>
                         <div class="mt-4">
                             <x-input-label for="name" :value="__('Nombre del titular')" />
-                            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"
+                            <x-text-input id="card_name" class="block mt-1 w-full" type="text" name="name"
                             value="" required autofocus autocomplete="name" />
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
                         <!-- Email Address -->
-                        <x-input-checkbox name="save_card" class="mt-6">Guardar método de pago para futuros pagos.</x-input-checkbox>
+                        <x-input-checkbox name="save_card" class="mt-6" id="save_card">Guardar método de pago para futuros pagos.</x-input-checkbox>
                     </div>
 
                     <div class="flex justify-center mt-6 ">
@@ -136,11 +136,20 @@
 
 
             @foreach ($userOrder as $order)
+                @if($order[0]->dish_id !== null)
                 <div class="dish-info flex justify-between items-center mb-4">
-                    <img src="../img/{{ $order->dish_image }}" alt="" class="h-14 w-20">
-                    <h1 class="text-center">{{ $order->dish_name }} (x{{ $order->user_quantity }})</h1>
-                    <p>{{ $order->dish_price }}€</p>
+                    <img src="../img/{{ $order[0]->dish_image }}" alt="" class="h-14 w-20">
+                    <h1 class="text-center">{{ $order[0]->dish_name }} (x{{ $order[0]->user_quantity }})</h1>
+                    <p>{{ $order[0]->dish_price }}€</p>
                 </div>
+                @else
+                <div class="dish-info flex justify-between items-center mb-4">
+                    <img src="https://images.openfoodfacts.org/images/products/{{ $order[0]->user_product_image }}" alt="" class="h-14 w-20">
+                    <h1 class="text-center">{{ $order[0]->user_product_name}} (x{{ $order[0]->quantity }})</h1>
+                    <p>{{ $order[0]->user_product_price }}€</p>
+                </div>
+                @endif
+
             @endforeach
             <div class="summary-orde flex mt-10 justify-between">
                 <p>Total</p>
