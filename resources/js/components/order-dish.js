@@ -22,6 +22,14 @@ if (cardsDiv) {
     cardsDiv.addEventListener('click', async (e) => {
         if (e.target.type == "radio") {
             const userCard = await library.sendDataToPhp('/getCard', parseInt(e.target.id))
+            console.log(userCard.response);
+            if(Object.entries(userCard.response).length > 0) {
+                document.querySelector('#card').value = userCard.response.card_number;
+                document.querySelector('#validation_date').value = userCard.response.validation_date;
+                document.querySelector('#card_name').value = userCard.response.card_name;
+                console.log(document.querySelector('#save_card'));
+                document.querySelector('#save_card').checked = true;
+            }
         }
     })
 

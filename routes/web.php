@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\DishController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\OrderController;
@@ -52,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/payment/pay', [PaymentController::class, 'pay'])->name('payment.pay');
     Route::get('/myorders', [OrderController::class, 'index'])->name('myorders.index');
     Route::get('/myorders', [OrderController::class, 'index'])->name('myorders.index');
+    Route::post('/getCard', [CardController::class, 'getCard'])->name('card.getCard');
 });
 
 Route::middleware(['auth', 'employee',])->group(function(){

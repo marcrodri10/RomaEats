@@ -18,6 +18,7 @@ class VerifyCsrfToken extends Middleware
         'payment',
         'allOrderAddress',
         'route/*',
-        'setDeliveryRoute'
+        'setDeliveryRoute',
+        'getCard',
     ];
 }

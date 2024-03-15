@@ -45,7 +45,7 @@ class PaymentController extends Controller
                 if($request->save_card) $save = 1;
                 else $save = 0;
                 $card_fields = [
-                    "card_name" => $request->name,
+                    "card_name" => $request->card_name,
                     "card_number" => $request->card,
                     "cvv" => Hash::make($request->cvv),
                     'validation_date' => $request->validation_date,
