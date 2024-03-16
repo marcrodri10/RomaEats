@@ -1,5 +1,5 @@
-<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-    <div class="flex flex-wrap items-center justify-between mx-auto p-4">
+<nav class="navbar bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+    <div class="flex items-center justify-between mx-auto p-4">
         <button data-collapse-toggle="navbar-sticky" type="button"
             class="inline-flex items-center p-2 w-1/4 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-sticky" aria-expanded="false" id="landing-collapse">
@@ -11,8 +11,8 @@
             </svg>
         </button>
 
-        <div class="flex justify-center w-1/4">
-            <a href="{{ route('index') }}">
+        <div class="flex justify-center w-1/4 items-center">
+            <a href="{{ route('index') }}" class="flex justify-center items-center h-90">
                 <x-application-logo class="w-14 h-14 fill-current text-gray-500" />
             </a>
         </div>
@@ -20,12 +20,12 @@
             @if (auth()->check())
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
+                        <x-slot name="trigger" >
                             <button
-                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                                <div>{{ Auth::user()->name }}</div>
+                                class="flex justify-center items-center border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                <div class="flex justify-center items-center">{{ Auth::user()->name }}</div>
 
-                                <div class="ms-1">
+                                <div class="ms-1 flex justify-center items-center">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 20 20">
                                         <path fill-rule="evenodd"
@@ -55,7 +55,7 @@
                     </x-dropdown>
                 </div>
             @else
-                <a href="{{ route('login') }}"><img src="{{ URL::to('img/user.svg') }}" alt="user icon"
+                <a href="{{ route('login') }}" class="flex justify-center items-center"><img src="{{ URL::to('img/user.svg') }}" alt="user icon"
                         class="w-10 h-10"></a>
             @endif
             <button id="shopping-cart" href="#" data-modal-target="static-modal" data-modal-toggle="static-modal">

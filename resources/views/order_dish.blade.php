@@ -81,6 +81,10 @@
                     </div>
                     <div class="payment bg-gray-200 p-4 flex flex-col justify-center">
                         <p class="text-xl">Pago</p>
+                        @if (session('error'))
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="error text-sm text-gray-600 dark:text-gray-400">{{ session('error') }}</p>
+                        @endif
                         @if(sizeof($userCards) > 0)
                             <div class="cards mt-6">
                                 @foreach ($userCards as $card)
@@ -104,14 +108,14 @@
                             </div>
                             <div class=" w-50">
                                 <x-input-label for="cvv" :value="__('CVV')" />
-                                <x-text-input id="surname" class="block mt-1 w-full" type="text" name="cvv"
+                                <x-text-input id="cvv" class="block mt-1 w-full" type="text" name="cvv"
                                 value="" required autofocus />
                                 <x-input-error :messages="$errors->get('cvv')" class="mt-2" />
                             </div>
                         </div>
                         <div class="mt-4">
                             <x-input-label for="name" :value="__('Nombre del titular')" />
-                            <x-text-input id="card_name" class="block mt-1 w-full" type="text" name="name"
+                            <x-text-input id="card_name" class="block mt-1 w-full" type="text" name="card_name"
                             value="" required autofocus autocomplete="name" />
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
@@ -124,9 +128,9 @@
                         <x-primary-button type="submit" value="pay"
                             class="w-50 ms-3 bg-green-700 pt-4 pb-4 pl-10 pr-10 flex justify-center"
                             name="payment" value="pay">Pagar</x-primary-button>
-                        <x-primary-anchor href="{{route('dishes')}}" value="cancel"
-                            class="w-50 ms-3 bg-red-800 pt-4 pb-4 pl-10 pr-10 flex justify-center"
-                            name="payment" value="cancel">Cancelar</x-primary-anchor>
+                        <x-danger-anchor href="{{route('dishes')}}" value="cancel"
+                            class="w-50 ms-3 bg-red-700 pt-4 pb-4 pl-10 pr-10 flex justify-center"
+                            name="payment" value="cancel">Cancelar</x-danger-anchor>
                     </div>
             </form>
 

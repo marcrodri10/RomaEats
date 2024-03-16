@@ -54,7 +54,7 @@
 
             <div class="dishes w-90 card-group" id="dishes">
                 @foreach ($dishes as $dish)
-                    <x-add-cart-card href="{{ route('dishes.show', ['id' => $dish->dish_id]) }}" id="{{$dish->dish_id}}">
+                    <x-add-cart-card href="{{ route('dishes.show', ['id' => $dish->dish_id]) }}" id="dish{{$dish->dish_id}}">
 
                         <div class="w-100 h-50">
                             <img src="img/{{ $dish->dish_image }}" alt="dish" class="w-100 h-100 dish-image">

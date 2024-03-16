@@ -18,9 +18,9 @@
     <main class="container-div mt-32 flex justify-center flex-col items-center" id="products-div">
 
 
-        <div id="map" class="mt-6"></div>
+        <div id="map" class="mt-6 "></div>
 
-        <div id="map-info"></div>
+        <div id="map-info" class="w-90"></div>
     </main>
 
 </body>

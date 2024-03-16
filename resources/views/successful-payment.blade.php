@@ -28,17 +28,17 @@
             </div>
 
             <div class="text-center h-1/2 ">
-                <h3 class="md:text-2xl text-base text-gray-900 font-semibold text-center">Payment Done!</h3>
-                <p class="text-gray-600 my-2">Thank you for completing your secure online payment.</p>
-                <p> Have a great day! </p>
+                <h3 class="md:text-2xl text-base text-gray-900 font-semibold text-center">¡Pago hecho!</h3>
+                <p class="text-gray-600 my-2">Gracias por completar el pago online.</p>
+                <p> ¡Tenga un buen día! </p>
                 <div class="text-center mt-5 flex justify-center gap-5">
                     <x-primary-anchor href="/"
                         class="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3">
-                        GO BACK
+                        ATRÁS
                     </x-primary-anchor>
                     <x-primary-anchor href="/myorders"
                         class="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3">
-                        MY ORDERS
+                        MIS PEDIDOS
                     </x-primary-anchor>
                 </div>
             </div>

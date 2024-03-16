@@ -95,7 +95,7 @@
                     </div>
                 </div>
                 <div class="content-form mt-10 flex flex-col">
-                    <div class="steps-and-products flex">
+                    <div class="steps-and-products flex gap-10">
                         <div class="recipes w-1/2">
                             <div class="recipes-inputs">
                                 <div class="relative">

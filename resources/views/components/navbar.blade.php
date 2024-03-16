@@ -12,7 +12,7 @@
         </button>
 
         <div class="flex justify-center w-1/4 items-center">
-            <a href="{{ route('index') }}" class="flex justify-center items-center">
+            <a href="{{ route('index') }}" class="flex justify-center items-center h-90">
                 <x-application-logo class="w-14 h-14 fill-current text-gray-500" />
             </a>
         </div>

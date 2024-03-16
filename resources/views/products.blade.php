@@ -26,7 +26,8 @@
                     class="text-sm text-gray-600 dark:text-gray-400">{{ __('Saved.') }}</p>
             @endif
             @if (session('error'))
-                <p>{{ session('error') }}</p>
+            <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                class="error text-sm text-gray-600 dark:text-gray-400">{{ session('error') }}</p>
             @endif
             @if (sizeof($products) == 0)
                 <div class="empty flex flex-col justify-center items-center mt-40 h-80">

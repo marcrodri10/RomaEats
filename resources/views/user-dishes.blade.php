@@ -18,7 +18,7 @@
     <x-navbar></x-navbar>
     <x-shoping-cart-modal></x-shoping-cart-modal>
     <main class="products-div mt-32 flex justify-center flex-col items-center">
-        <div class="user-products-container flex justify-center flex-col items-center" id="products-div">
+        <div class="user-products-container w-100 flex justify-center flex-col items-center" id="products-div">
             <div class="links flex gap-10">
                 <a class=" text-lg hover:text-green-600" href="{{ route('recipe.index') }}">Mis recetas</a>
                 <a class="underline text-lg hover:text-green-600" href="{{ route('mydishes.index') }}">Mis platos</a>
@@ -42,7 +42,7 @@
                     </x-button-with-icon>
                 </div>
             @else
-                <div class="products width-80 flex flex-wrap justify-center items-center" id="products">
+                <div class="card-group w-90 products" id="products">
 
                     @foreach ($userDishes as $userDish)
                         <x-default-card id="user-dish{{ $userDish->user_dish_id }}"
@@ -57,10 +57,7 @@
                                     <h2 class="mb-5 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                                         Plato {{ $userDish->user_dish_name }}</h2>
                                 </div>
-                                <div class="">
-                                    <h2 class="mb-5 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                        Plato {{ $userDish->user_dish_name }}</h2>
-                                </div>
+
                             </div>
                         </x-default-card>
                     @endforeach
@@ -178,7 +175,7 @@
                         @if (sizeof($recipes) != 0)
 
                         <div class="select-recipe mt-6">
-                            <select id="countries" class="h-14 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5">
+                            <select id="countries" name="recipes" class="mb-6 block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  focus:border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="" disabled selected>Selecciona una receta</option>
                                 @foreach($recipes as $recipe)
 

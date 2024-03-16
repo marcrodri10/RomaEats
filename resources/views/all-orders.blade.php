@@ -36,10 +36,10 @@
 
 
         <div id="map" class="mt-6"></div>
-        <div class="orders-div flex justify-center flex-col items-center mt-10">
+        <div class="orders-div flex justify-center flex-col items-center mt-10 w-100">
             <h1 class="underline">Orders</h1>
             @if (sizeof($orders) > 0)
-                <div class="width-80 flex justify-center" id="orders">
+                <div class="w-90 card-group" id="orders">
                     {{-- @foreach ($orders as $order)
                         <x-basic-card id="{{ $order->order_id }}" address="{{ $order->order_address }}"
                             phone="{{ $order->phone }}" name="{{ $order->name }}" surname="{{ $order->surname }}">

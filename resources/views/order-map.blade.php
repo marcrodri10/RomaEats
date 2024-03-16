@@ -23,11 +23,9 @@
                 @foreach ($order as $o)
 
                 <div class="flex-col items-center">
-                    @isset($o->price)<p class=" font-normal text-gray-700 dark:text-gray-400">{{$o->price}}</p>@endisset
-                    @isset($o->status)<p class=" font-normal text-gray-700 dark:text-gray-400">{{$o->status}}</p>@endisset
-
-                    @isset($o->name, $o->surname)<p class=" font-normal text-gray-700 dark:text-gray-400">{{$o->name}} {{$o->surname}}</p>@endisset
-                    <p class=" font-normal text-gray-700 dark:text-gray-400" id="address">{{$o->order_address}}</p>
+                    @isset($o->name, $o->surname)<p  id="{{$o->order_dish_code}}" class="order-code font-normal text-gray-700 dark:text-gray-400">Pedido: {{$o->order_dish_code}}</p>@endisset
+                    @isset($o->name, $o->surname)<p class=" font-normal text-gray-700 dark:text-gray-400">Cliente: {{$o->name}} {{$o->surname}}</p>@endisset
+                    <p class=" font-normal text-gray-700 dark:text-gray-400" id="address">Dirección: {{$o->order_address}}</p>
                     @isset($o->phone)<p class=" font-normal text-gray-700 dark:text-gray-400">{{$o->phone}}</p>@endisset
                 </div>
                 @endforeach

@@ -49,7 +49,7 @@
 
             </div>
 
-            <div class="mt-12 mb-12 flex">
+            <div class="mt-12 mb-12 flex" id="paginator">
                 {{ $dishes->links() }}
 
             </div>
