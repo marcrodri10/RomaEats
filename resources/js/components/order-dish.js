@@ -21,7 +21,7 @@ const cardsDiv = document.querySelector('.cards');
 if (cardsDiv) {
     cardsDiv.addEventListener('click', async (e) => {
         if (e.target.type == "radio") {
-            const userCard = getCard(parseInt(e.target.id))
+            const userCard = await library.sendDataToPhp('/getCard', parseInt(e.target.id))
             console.log(userCard.response);
             if(Object.entries(userCard.response).length > 0) {
                 document.querySelector('#card').value = userCard.response.card_number;
@@ -33,8 +33,4 @@ if (cardsDiv) {
         }
     })
 
-}
-
-async function getCard(id){
-    return await library.sendDataToPhp('/getCard', id)
 }
