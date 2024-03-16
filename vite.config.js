@@ -9,7 +9,6 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/app-employee.js',
                 'resources/css/components/landing.css',
-                'resources/js/components/landing.js',
                 'resources/css/components/orders.css',
                 'resources/css/components/products.css',
                 'resources/js/components/delivery-route.js',
