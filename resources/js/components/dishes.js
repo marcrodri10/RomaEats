@@ -9,7 +9,7 @@ const shopCartModal = document.querySelector('#shopping-cart-modal');
 const cartMessage = document.querySelector('.dish-cart-message');
 let buyBtn = false;
 const search = document.querySelector('#default-search');
-const dishesValues = await library.fetchPhp('/getAllDishes');
+const dishesValues = getAllDishes();
 let userShopCart = {};
 const closeCart = document.querySelectorAll('#close-cart > *');
 const shopCartIcon = document.querySelectorAll('#shopping-cart > *');
@@ -123,9 +123,7 @@ if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && libra
         const addOrderBtn = document.querySelector('#buy');
         console.log(addOrderBtn);
         addOrderBtn.addEventListener('click', async () => {
-            const response = await library.sendDataToPhp('/addOrder', userShopCart);
-            if (response.message == 'Saved') window.location.href = '/order';
-            else if(response.code == 301)  window.location.href = '/login';
+            sendOrder();
         });
     }
 
@@ -243,3 +241,14 @@ dishes.addEventListener('click', (e) => {
 
     }
 })
+
+
+async function getAllDishes() {
+    return await library.fetchPhp('/getAllDishes');
+}
+
+async function sendOrder(){
+    const response = await library.sendDataToPhp('/addOrder', userShopCart);
+    if (response.message == 'Saved') window.location.href = '/order';
+    else if(response.code == 301)  window.location.href = '/login';
+}

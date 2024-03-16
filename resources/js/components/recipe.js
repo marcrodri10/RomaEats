@@ -17,7 +17,7 @@ let selectDiv;
 
 
 
-const products = await library.fetchPhp('/getProducts');
+const products = getProducts();
 
 addBtn.forEach(element => {
     element.addEventListener('click', (e) => {
@@ -128,3 +128,8 @@ addProduct.addEventListener('click', () => {
     }
 
 })
+
+
+async function getProducts(){
+    return await library.fetchPhp('/getProducts')
+}

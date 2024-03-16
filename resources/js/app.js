@@ -57,9 +57,7 @@ if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && libra
         const addOrderBtn = document.querySelector('#buy');
 
         addOrderBtn.addEventListener('click', async () => {
-            const response = await library.sendDataToPhp('/addOrder', userShopCart);
-            if (response.message == 'Saved') window.location.href = '/order';
-            else if(response.code == 301)  window.location.href = '/login';
+            sendOrder();
         });
     }
 
@@ -80,4 +78,8 @@ closeCart.forEach(element => {
 })
 
 
-
+async function sendOrder(){
+    const response = await library.sendDataToPhp('/addOrder', userShopCart);
+    if (response.message == 'Saved') window.location.href = '/order';
+    else if(response.code == 301)  window.location.href = '/login';
+}
