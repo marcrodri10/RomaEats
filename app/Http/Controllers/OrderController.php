@@ -41,7 +41,28 @@ class OrderController extends Controller
     }
 
     function showDeliveryRoute(){
+
         return view('delivery-route');
+    }
+
+    function getRouteData(Request $request){
+        $requestData = $request->json()->all();
+
+        foreach($requestData as $data){
+            dump($data);
+            Order::where('order_dish_code', $requestData['code'])
+            ->update(['order_status' => 'Delivery']);
+        }
+    }
+    function updateUserOrder(Request $request){
+        $requestData = $request->json()->all();
+        foreach($requestData as $data){
+            Order::where('order_dish_code', $data)
+            ->update(['order_status' => 'Delivery']);
+        }
+
+
+        return response()->json(['message' => 'Updated']);
     }
 
 }

@@ -46,6 +46,7 @@ class OrderDishController extends Controller
         try{
             if(Auth::check()){
                 $requestData = $request->json()->all();
+
                 $dbData = [];
                 $userId = Auth::user()->id;
                 $amount = 0;
@@ -77,7 +78,6 @@ class OrderDishController extends Controller
                     }
 
                     $amount += $requestData[$data]['quantity'] * (float)$requestData[$data]['price'];
-
                     OrderDish::create($dbData);
 
                 }

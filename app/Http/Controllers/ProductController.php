@@ -35,7 +35,7 @@ class ProductController extends Controller
             if ($request->search != "") {
                 $response = Http::get('https://es.openfoodfacts.org/api/v2/product/' . $request->search);
                 $data = $response->json();
-
+                if($data['status'] == 0) throw new Exception('El producto no existe o el código de barras que has introducido es incorrecto.');
                 $imageUrl = substr($data['product']['image_url'], strpos($data['product']['image_url'], 'products') + strlen('products') + 1);
                 $price = rand(100, 400) / 100;
                 if(isset($data['product']['product_name_es'])){
