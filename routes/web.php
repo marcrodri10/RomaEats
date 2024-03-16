@@ -33,7 +33,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 Route::post('/addOrder', [OrderDishController::class, 'addOrder'])->name('order.add');
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -61,6 +61,8 @@ Route::middleware(['auth', 'employee',])->group(function(){
     Route::get('/allOrderAddress', [OrderController::class, 'getAllOrderAddress'])->name('employee.orders.getAllOrderAddress');
     Route::post('/route/{id}', [OrderController::class, 'showOrderMap'])->name('employee.orders.showOrderMap');
     Route::get('/deliveryRoute', [OrderController::class, 'showDeliveryRoute'])->name('employee.orders.deliveryRoute');
+    Route::post('/updateOrder', [OrderController::class, 'updateUserOrder'])->name('order.updateUserOrder');
+    Route::post('/getRouteData', [OrderController::class, 'getRouteData'])->name('order.getRouteData');
 });
 
 require __DIR__.'/auth.php';
