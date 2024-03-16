@@ -11,7 +11,7 @@ const loader = new Loader({
 
 loader.load().then(async () => {
     const { Map } = await google.maps.importLibrary("maps");
-    const location = await geocodeAddress(`Carrer d'Apel·les Mestres, 52-58, 08850 Gavà, Barcelona`)
+    const location = await getLocation();
     const map = new Map(document.getElementById("map"), {
         center: location,
         zoom: 11,
@@ -29,18 +29,21 @@ loader.load().then(async () => {
 
 
 
+
     const rangeKm = document.querySelector('#km-range');
     let rangeValue = document.querySelector('#range-value');
-    if(localStorage.getItem('range')){
+    if (localStorage.getItem('range')) {
         rangeKm.value = localStorage.getItem('range');
         rangeValue.textContent = rangeKm.value + 'km';
     }
     circle = setMapCircle(map, location, parseInt(rangeKm.value));
-    addMarker(location, map, 'negocio', 'home.svg')
+
     const response = await library.fetchPhp('/allOrderAddress');
     console.log(response);
     let markedAddresses = [];
     const ordersDiv = document.querySelector('#orders');
+
+
 
     if (ordersDiv) ordersDiv.innerHTML = ``;
     if (response.message.length > 0) {
@@ -68,15 +71,25 @@ loader.load().then(async () => {
             <p class=" font-normal text-gray-700 dark:text-gray-400">${response.message[address].order_address == null ? '' : response.message[address].order_address}</p>
             <p class=" font-normal text-gray-700 dark:text-gray-400">${response.message[address].phone == null ? '' : response.message[address].phone}</p>
         </div>
-        <div class="buttons flex justify-between">
-        <form action="/route/${response.message[address].order_id}" method="post">
-            <button value="${response.message[address].order_id}" class="select-btn">SELECCIONAR</button>
-        </form>
-        <button type="button" value="${response.message[address].order_id}" class="select-btn" id="add-route">AÑADIR</button>
+        <div class="buttons flex justify-between mt-6">
+            <form action="/route/${response.message[address].order_id}" method="post">
+                <button value="${response.message[address].order_id}" class="select-btn inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-green-800 dark:hover:bg-white  active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">SELECCIONAR</button>
+            </form>
+            <button type="button" value="${response.message[address].order_id}" class="select-btn inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-green-800 dark:hover:bg-white  active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8" id="add-route">AÑADIR</button>
         </div>
     </div>
 </div>
             `
+                const button = document.querySelectorAll('#add-route');
+                for(let i in button){
+                    if(JSON.parse(localStorage.getItem('deliveryRoute'))){
+                        if(JSON.parse(localStorage.getItem('deliveryRoute'))['route'+button[i].value]){
+                            button[i].id = 'delete-route';
+                            button[i].textContent = 'ELIMINAR'
+                        }
+                    }
+
+                }
 
                 let marker = addMarker(coords, map, address);
                 if (distance >= distanceFarthest) {
@@ -134,11 +147,11 @@ loader.load().then(async () => {
             <p class=" font-normal text-gray-700 dark:text-gray-400">${response.message[address].order_address == null ? '' : response.message[address].order_address}</p>
             <p class=" font-normal text-gray-700 dark:text-gray-400">${response.message[address].phone == null ? '' : response.message[address].phone}</p>
         </div>
-        <div class="buttons flex justify-between">
+        <div class="buttons flex justify-between mt-6">
         <form action="/route/${response.message[address].order_id}" method="post">
-            <button value="${response.message[address].order_id}" class="select-btn">SELECCIONAR</button>
+            <button value="${response.message[address].order_id}" class="select-btn inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-green-800 dark:hover:bg-white  active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">SELECCIONAR</button>
         </form>
-        <button type="button" value="${response.message[address].order_id}" class="select-btn" id="add-route">AÑADIR</button>
+        <button type="button" value="${response.message[address].order_id}" class="select-btn inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-green-800 dark:hover:bg-white  active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8" id="add-route">AÑADIR</button>
         </div>
     </div>
 </div>
@@ -162,16 +175,126 @@ loader.load().then(async () => {
     let buyBtn = false;
     const shopCartModal = document.querySelector('#shopping-cart-modal');
     const cartMessage = document.querySelector('.cart-message');
-    if(ordersDiv){
+    if (library.checkJSON(JSON.parse(localStorage.getItem('deliveryRoute'))) && library.checkJSON(JSON.parse(localStorage.getItem('deliveryRoute')))) {
+        cartMessage.innerHTML = ``;
+        //console.log(window.location);
+        deliveryRoute = JSON.parse(localStorage.getItem('deliveryRoute'));
+
+        for (let route in deliveryRoute) {
+            console.log(route);
+            const { code, user, address } = deliveryRoute[route];
+            const productCartCard = library.createElement('div', { className: 'flex w-90 justify-around items-center gap-3 product-cart-card' });
+            productCartCard.innerHTML = `
+            <div class="w-40">
+                <img src="img/marker.svg">
+            </div>
+            <div class="flex-col w-40">
+                <p>${code}</p>
+                <p>${user}</p>
+                <p>${address}</p>
+            </div>
+        `;
+            cartMessage.appendChild(productCartCard);
+        }
+
+        if (!buyBtn) {
+            const finishBuyDiv = library.createElement('div', {
+                className: 'flex justify-center items-center',
+            });
+            const buyButton = library.createElement('button', {
+                className: "ms-3 bg-green-700 pt-4 pb-4 pl-10 pr-10 flex justify-center mt-16 inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-green-800 dark:hover:bg-white  active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none dark:focus:ring-offset-gray-800 transition ease-in-out duration-15",
+                textContent: 'COMENZAR RUTA',
+                id: "buy",
+            });
+
+            finishBuyDiv.appendChild(buyButton);
+            shopCartModal.appendChild(finishBuyDiv);
+
+            buyBtn = true;
+
+            const addOrderBtn = document.querySelector('#buy');
+
+
+            addOrderBtn.addEventListener('click', async () => {
+
+                if(Object.entries(deliveryRoute).length <= 1) alert('Tiene que haber mínimo 2 localizaciones en la ruta')
+                else window.location.href = '/deliveryRoute';
+
+            });
+        }
+
+
+    }
+    if (ordersDiv) {
         ordersDiv.addEventListener('click', (e) => {
-            shopCartModal.children[1].innerHTML = '';
-            console.log(deliveryRoute);
-            const cardData = e.target.closest('.order-info');
-            console.log(cardData);
+
             if (e.target.id == "add-route") {
+                shopCartModal.children[1].innerHTML = '';
+                console.log(deliveryRoute);
+                const cardData = e.target.closest('.order-info');
+                console.log(cardData);
                 deliveryRoute['route' + e.target.value] = {
+                    code: cardData.children[0].children[0].textContent,
+                    user: cardData.children[1].children[2].textContent,
                     address: cardData.children[1].children[3].textContent,
                 }
+                console.log(deliveryRoute);
+                for (let route in deliveryRoute) {
+                    const { code, user, address } = deliveryRoute[route];
+                    const productCartCard = library.createElement('div', { className: 'flex w-90 justify-around items-center gap-3 product-cart-card' });
+                    productCartCard.innerHTML = `
+                    <div class="w-40">
+                        <img src="img/marker.svg">
+                    </div>
+                    <div class="flex-col w-40">
+                        <p>${code}</p>
+                        <p>${user}</p>
+                        <p>${address}</p>
+                    </div>
+                `;
+                    cartMessage.appendChild(productCartCard);
+                }
+                localStorage.setItem('deliveryRoute', JSON.stringify(deliveryRoute));
+                if (!buyBtn) {
+                    const finishBuyDiv = library.createElement('div', {
+                        className: 'w-100 flex justify-center items-center'
+                    });
+                    const buyButton = library.createElement('button', {
+                        className: "ms-3 bg-green-700 pt-4 pb-4 pl-10 pr-10 flex justify-center mt-16 inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-green-800 dark:hover:bg-white  active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none dark:focus:ring-offset-gray-800 transition ease-in-out duration-15",
+                        textContent: "COMENZAR RUTA", id: "buy"
+                    });
+                    finishBuyDiv.appendChild(buyButton);
+                    shopCartModal.appendChild(finishBuyDiv);
+
+                    buyBtn = true;
+
+                    const addOrderBtn = document.querySelector('#buy');
+                    addOrderBtn.addEventListener('click', async () => {
+                        if(Object.entries(deliveryRoute).length <= 1) alert('Tiene que haber mínimo 2 localizaciones en la ruta')
+                        else window.location.href = '/deliveryRoute';
+                    });
+                }
+
+                e.target.textContent = 'ELIMINAR';
+                e.target.id = 'delete-route';
+            }
+            else if (e.target.id == "delete-route") {
+                delete deliveryRoute['route' + e.target.value];
+                cartMessage.innerHTML = '';
+                if (Object.entries(deliveryRoute).length == 0) {
+                    document.querySelector('#buy').remove();
+                    cartMessage.innerHTML = `
+                    <h2>Todavía no hay rutas</h2>
+                    <button type = 'button' value = 'see-more' class = 'ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8 inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-green-800 dark:hover:bg-white  active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none dark:focus:ring-offset-gray-800 transition ease-in-out duration-150'>
+                        Añadir rutas
+                    </button>
+                    `
+                    buyBtn = false;
+                }
+                console.log(deliveryRoute);
+                e.target.textContent = 'AÑADIR';
+                e.target.id = 'add-route';
+
                 for (let route in deliveryRoute) {
                     const { address } = deliveryRoute[route];
                     const productCartCard = library.createElement('div', { className: 'flex w-90 justify-around items-center gap-3 product-cart-card' });
@@ -186,23 +309,7 @@ loader.load().then(async () => {
                     cartMessage.appendChild(productCartCard);
                 }
                 localStorage.setItem('deliveryRoute', JSON.stringify(deliveryRoute));
-                if (!buyBtn) {
-                    const finishBuyDiv = document.createElement('div');
-                    const buyButton = library.createElement('button', {
-                        className: "ms-3 bg-green-700 pt-4 pb-4 pl-10 pr-10 flex justify-center mt-16 inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-green-800 dark:hover:bg-white  active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none dark:focus:ring-offset-gray-800 transition ease-in-out duration-15",
-                        textContent: "COMENZAR RUTA", id: "buy"
-                    });
-                    finishBuyDiv.appendChild(buyButton);
-                    shopCartModal.appendChild(finishBuyDiv);
 
-                    buyBtn = true;
-
-                    const addOrderBtn = document.querySelector('#buy');
-                    addOrderBtn.addEventListener('click', async () => {
-
-                        window.location.href = '/deliveryRoute';
-                    });
-                }
             }
         })
     }

@@ -20,9 +20,15 @@ loader.load().then(async () => {
     });
     const deliveryRoute = JSON.parse(localStorage.getItem("deliveryRoute"));
     console.log(deliveryRoute);
+    let routeCode = [];
+    for(let route in deliveryRoute) {
+        console.log(deliveryRoute[route]);
+        routeCode.push(deliveryRoute[route].code.trim())
+    }
 
+    const setOrderDelivery = library.sendDataToPhp('/updateOrder', routeCode);
     const mapInfo = document.querySelector("#map-info");
-    addMarker(location, map, 0, 'circle.svg');
+    //addMarker(location, map, 0, 'circle.svg');
     let circle = setMapCircle(map, location, 50);
     let routeFarthest;
     let distanceFarthest = 0;
@@ -81,13 +87,12 @@ loader.load().then(async () => {
             if (status == 'OK') {
                 directionsRenderer.setDirections(result);
                 console.log(result);
-                mapInfo.innerHTML = `
-                ${result.routes[0].legs[0].distance.text}
-                ${result.routes[0].legs[0].duration.text}`;
-                console.log(result.routes[0].overview_path.length);
+
                 let time = 0;
+                let distance = 0;
                 for (let leg in result.routes[0].legs) {
                     time += result.routes[0].legs[leg].duration.value;
+                    distance +=  result.routes[0].legs[leg].distance.value
                 }
                 let routePath = [];
                 for (let leg in result.routes[0].legs) {
@@ -98,6 +103,10 @@ loader.load().then(async () => {
                         }
                     }
                 }
+                mapInfo.innerHTML = `
+                Distancia total: ${Math.round(distance/1000)} km<br>
+                Tiempo total: ${Math.round(time / 60)} min<br>`;
+                console.log(result.routes[0].overview_path.length);
 
                 const routeProgress = parseFloat(time / routePath.length).toFixed(3);
                 console.log(routeProgress);
@@ -110,7 +119,7 @@ loader.load().then(async () => {
                 }
                 console.log(finishLocation);
 
-                let interval = setInterval(() => {
+                /* let interval = setInterval(() => {
                     if (routeMarkers.length != 0) {
                         routeMarkers[0].setMap(null);
                         routeMarkers.splice(0, 1)
@@ -133,86 +142,21 @@ loader.load().then(async () => {
                     routeMarkers.push(rMarker);
 
                     i++;
-                }, routeProgress * 1000)
+                }, routeProgress * 1000) */
                 for(let path in routePath){
                     //console.log(path, JSON.parse(JSON.stringify(routePath[path])));
                     //addMarker(JSON.parse(JSON.stringify(routePath[path])), map, 0);
                 }
                 console.log(JSON.parse(JSON.stringify(result.request.destination.location)));
-                for (let step of result.routes[0].legs[0].steps) {
-
-                    mapInfo.innerHTML += `${step.instructions}<br>`
-                }
-            } else {
-                console.error('Error al calcular la ruta:', status);
-            }
-        });
-    }
-    else {
-        const directionsService = new google.maps.DirectionsService();
-        const directionsRenderer = new google.maps.DirectionsRenderer({
-            map: map,
-            polylineOptions: {
-                strokeColor: '#FF0000',  // Cambiar el color de la línea
-                strokeWeight: 10,         // Cambiar el grosor de la línea
-                strokeOpacity: 0.7,      // Cambiar la opacidad de la línea
-            },
-        });
-        directionsRenderer.setMap(map);
-
-        const request = {
-            origin: location,
-            destination: routeLocation[0],
-            travelMode: 'DRIVING',
-        };
-
-        directionsService.route(request, function (result, status) {
-            if (status == 'OK') {
-                directionsRenderer.setDirections(result);
-                console.log(result);
-                mapInfo.innerHTML = `
-            ${result.routes[0].legs[0].distance.text}
-            ${result.routes[0].legs[0].duration.text}`;
-                console.log(result.routes[0].overview_path.length);
-                const TIME = result.routes[0].legs[0].duration.value;
-
-                console.log(TIME);
-                const routeProgress = parseFloat(TIME / result.routes[0].overview_path.length).toFixed(3);
-                console.log(routeProgress);
-
-                let i = 0;
-                let routeMarkers = [];
-                const finishLocation = {
-                    lat: parseFloat(result.routes[0].legs[0].end_location.lat().toFixed(5)),
-                    lng: parseFloat(result.routes[0].legs[0].end_location.lng().toFixed(5)),
-                }
-                let interval = setInterval(() => {
-                    if (routeMarkers.length != 0) {
-                        routeMarkers[0].setMap(null);
-                        routeMarkers.splice(0, 1)
+                for (let leg in result.routes[0].legs) {
+                    for (let step in result.routes[0].legs[leg].steps) {
+                        mapInfo.innerHTML += `${result.routes[0].legs[leg].steps[step].instructions}<br>`
                     }
-
-
-                    let position = {
-                        lat: result.routes[0].overview_path[i].lat(),
-                        lng: result.routes[0].overview_path[i].lng(),
-                    }
-                    console.log(position.lat == finishLocation.lat && position.lng == finishLocation.lng);
-                    if (position.lat == finishLocation.lat && position.lng == finishLocation.lng) {
-                        console.log('ha llegado');
-                        clearInterval(interval);
-                    }
-                    let rMarker = addMarker(position, map, 0, 'circle.svg');
-                    routeMarkers.push(rMarker);
-
-                    i++;
-                }, routeProgress * 1000)
-
-                console.log(JSON.parse(JSON.stringify(result.request.destination.location)));
-                for (let step of result.routes[0].legs[0].steps) {
-
-                    mapInfo.innerHTML += `${step.instructions}<br>`
                 }
+
+
+
+
             } else {
                 console.error('Error al calcular la ruta:', status);
             }

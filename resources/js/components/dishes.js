@@ -1,5 +1,9 @@
 import * as library from "./../library/library.js";
+import Alpine from 'alpinejs';
 
+window.Alpine = Alpine;
+
+Alpine.start();
 const dishes = document.querySelector('#dishes');
 const shopCartModal = document.querySelector('#shopping-cart-modal');
 const cartMessage = document.querySelector('.dish-cart-message');
@@ -9,6 +13,14 @@ const dishesValues = await library.fetchPhp('/getAllDishes');
 let userShopCart = {};
 const closeCart = document.querySelectorAll('#close-cart > *');
 const shopCartIcon = document.querySelectorAll('#shopping-cart > *');
+const continueBtn = document.querySelector('#continue');
+
+if (continueBtn){
+    continueBtn.addEventListener('click', () => {
+        console.log('hola');
+        window.location.href = '/dishes';
+    })
+}
 shopCartIcon.forEach(element => {
     element.addEventListener('click', (e) => {
         library.showModal(shopCartModal);
@@ -32,11 +44,9 @@ if(search){
 
             if (dishesValues[dish].dish_name.toLowerCase().includes(val)) {
                 if (total < 5) {
-                    console.log(dishesValues[dish]);
                     library.generateDishCard(dishes, dishesValues[dish]);
                     let pageDishesIds = [];
                     const dishes_ = document.querySelectorAll('.dishes > .food-dish');
-                    console.log(dishes_);
                     dishes_.forEach(element => {
                         pageDishesIds.push(element.id)
                     })
@@ -53,6 +63,19 @@ if(search){
 
                 total++;
             }
+        }
+        if(total == 0){
+            const paginator = document.querySelector('#paginator');
+            paginator.classList.add('hidden');
+            const message = document.createElement('p');
+            message.textContent = 'Lo sentimos. No hemos encontrado ningún plato con ese nombre.';
+            dishes.classList.remove('card-group');
+            message.className = "text-center"
+            dishes.appendChild(message);
+        }
+        else {
+            paginator.classList.remove('hidden');
+            dishes.classList.add('card-group');
         }
 
     })
@@ -82,6 +105,7 @@ if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && libra
     library.createShopCartCard(userShopCart, cartMessage)
 
     if (!buyBtn) {
+        console.log('entroo');
         const finishBuyDiv = library.createElement('div', {
             className: 'flex justify-center items-center',
         });
@@ -97,10 +121,9 @@ if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && libra
         buyBtn = true;
 
         const addOrderBtn = document.querySelector('#buy');
-
+        console.log(addOrderBtn);
         addOrderBtn.addEventListener('click', async () => {
             const response = await library.sendDataToPhp('/addOrder', userShopCart);
-            console.log(response.message);
             if (response.message == 'Saved') window.location.href = '/order';
             else if(response.code == 301)  window.location.href = '/login';
         });
@@ -137,7 +160,7 @@ dishes.addEventListener('click', (e) => {
         localStorage.setItem('userShopCart', JSON.stringify(userShopCart));
 
         if (!buyBtn) {
-            console.log('entrooo');
+
             const finishBuyDiv = library.createElement('div', {
                 className: 'flex justify-center items-center',
             });
@@ -151,9 +174,11 @@ dishes.addEventListener('click', (e) => {
             buyBtn = true;
 
             const addOrderBtn = document.querySelector('#buy');
+            console.log(addOrderBtn);
             addOrderBtn.addEventListener('click', async () => {
                 const response = await library.sendDataToPhp('/addOrder', userShopCart);
                 if (response.message == 'Saved') window.location.href = '/order';
+                else if(response.code == 301)  window.location.href = '/login';
             });
         }
     }

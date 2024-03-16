@@ -1,5 +1,10 @@
 import { Html5Qrcode } from "html5-qrcode";
 import * as library from "../library/library.js";
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();
 
 const productsDiv = document.querySelector("#products-div");
 const productDiv = document.querySelector('#product');
@@ -18,6 +23,13 @@ const cartMessage = document.querySelector('.dish-cart-message');
 let userShopCart = {};
 const shopCartModal = document.querySelector('#shopping-cart-modal');
 const closeCart = document.querySelectorAll('#close-cart > *');
+const continueBtn = document.querySelector('#continue');
+
+if (continueBtn){
+    continueBtn.addEventListener('click', () => {
+        window.location.href = '/dishes';
+    })
+}
 addBtn.forEach(element => {
     element.addEventListener('click', (e) => {
         library.showModal(productForm);
@@ -205,6 +217,7 @@ productSearch.addEventListener('input', () => {
 
         getProduct(productSearch.value);
     }
+    else productDiv.innerHTML = ``;
 
 })
 productForm.addEventListener('click', (e) => {

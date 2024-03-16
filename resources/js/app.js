@@ -23,7 +23,13 @@ export let userShopCart = {
 
 };
 
+const continueBtn = document.querySelector('#continue');
 
+if (continueBtn){
+    continueBtn.addEventListener('click', () => {
+        window.location.href = '/dishes';
+    })
+}
 
 
 if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && library.checkJSON(JSON.parse(localStorage.getItem('userShopCart')))) {

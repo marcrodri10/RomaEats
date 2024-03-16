@@ -18,13 +18,14 @@ loader.load().then(async () => {
         mapTypeId: 'roadmap',
         disableDefaultUI: true,
     });
+    const orderCode = document.querySelector('.order-code').id;
 
+    const setOrderDelivery = library.sendDataToPhp('/updateOrder', {code:orderCode});
     const address = document.querySelector("#address").textContent;
     const coords = await geocodeAddress(address);
     const mapInfo = document.querySelector("#map-info");
-    addMarker(location, map, 0, 'circle.svg');
+    //addMarker(location, map, 0, 'circle.svg');
     addMarker(coords, map, 1);
-
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer({
         map: map,
@@ -45,11 +46,9 @@ loader.load().then(async () => {
     directionsService.route(request, function (result, status) {
         if (status == 'OK') {
             directionsRenderer.setDirections(result);
-            console.log(result);
             mapInfo.innerHTML = `
-            ${result.routes[0].legs[0].distance.text}
-            ${result.routes[0].legs[0].duration.text}`;
-            console.log(result.routes[0].overview_path.length);
+            Distancia total: ${result.routes[0].legs[0].distance.text}<br>
+            Tiempo total: ${result.routes[0].legs[0].duration.text}<br>`;
             let routePath = [];
             for (let step in result.routes[0].legs[0].steps){
                 for(let path in result.routes[0].legs[0].steps[step].path){
@@ -71,7 +70,7 @@ loader.load().then(async () => {
                 lng: parseFloat(result.routes[0].legs[0].end_location.lng().toFixed(5)),
             }
 
-            let interval = setInterval(() => {
+           /*  let interval = setInterval(() => {
                 if(routeMarkers.length != 0){
                     routeMarkers[0].setMap(null);
                     routeMarkers.splice(0, 1)
@@ -91,14 +90,8 @@ loader.load().then(async () => {
                 routeMarkers.push(rMarker);
 
                 i++;
-            }, routeProgress*1000)
-            /* for(let path in result.routes[0].overview_path){
-                console.log(path, JSON.parse(JSON.stringify(result.routes[0].overview_path[path])));
-                addMarker(JSON.parse(JSON.stringify(result.routes[0].overview_path[path])), map, 0);
-            } */
-            console.log(coords);
+            }, routeProgress*1000) */
 
-            console.log(JSON.parse(JSON.stringify(result.request.destination.location)));
             for(let step of result.routes[0].legs[0].steps){
 
                 mapInfo.innerHTML += `${step.instructions}<br>`

@@ -100,9 +100,8 @@ export function createShopCartCard(shopCart, div) {
                         <img src="${img}">
                     </div>
                     <div class="flex-col w-40">
-                        <p>${name}</p>
+                        <p>${name} x(${quantity})</p>
                         <p>${price}</p>
-                        <p>${quantity}</p>
                     </div>
                 `;
             div.appendChild(productCartCard);
@@ -119,9 +118,9 @@ export function createShopCartCard(shopCart, div) {
                 <img src="${publicPath}img/dish${id}.png">
             </div>
             <div class="flex-col w-40">
-                <p>${name}</p>
+                <p>${name} x(${quantity})</p>
                 <p>${price}</p>
-                <p>${quantity}</p>
+
             </div>
         `;
             div.appendChild(productCartCard);
