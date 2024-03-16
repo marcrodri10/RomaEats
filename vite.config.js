@@ -20,7 +20,7 @@ export default defineConfig({
                 'resources/js/components/products.js',
                 'resources/js/components/recipe.js',
                 'resources/js/components/user-dish.js',
-                'resources/library/library.js',
+                'resources/js/library/library.js',
 
             ],
             refresh: true,
