@@ -9,13 +9,15 @@ const shopCartModal = document.querySelector('#shopping-cart-modal');
 const cartMessage = document.querySelector('.dish-cart-message');
 let buyBtn = false;
 const search = document.querySelector('#default-search');
-const dishesValues = getAllDishes();
+let dishesValues;
+fetchDishes();
+
 let userShopCart = {};
 const closeCart = document.querySelectorAll('#close-cart > *');
 const shopCartIcon = document.querySelectorAll('#shopping-cart > *');
 const continueBtn = document.querySelector('#continue');
 
-if (continueBtn){
+if (continueBtn) {
     continueBtn.addEventListener('click', () => {
         window.location.href = '/dishes';
     })
@@ -34,7 +36,7 @@ closeCart.forEach(element => {
     })
 })
 
-if(search){
+if (search) {
     search.addEventListener('keyup', async () => {
         dishes.innerHTML = '';
         const val = search.value.trim();
@@ -62,7 +64,7 @@ if(search){
                 total++;
             }
         }
-        if(total == 0){
+        if (total == 0) {
             const paginator = document.querySelector('#paginator');
             paginator.classList.add('hidden');
             const message = document.createElement('p');
@@ -90,7 +92,7 @@ if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && libra
     })
     for (let cart in userShopCart) {
         if (pageDishesIds.includes(cart)) {
-            if(cart.includes('dish')){
+            if (cart.includes('dish')) {
                 const element = document.querySelector('#' + cart);
                 const value = element.querySelector('#counter-input').value = userShopCart[cart].quantity;
                 const inputs = element.querySelector('.product-quantity').classList.remove('hidden');
@@ -136,7 +138,7 @@ dishes.addEventListener('click', (e) => {
     if (e.target.id == "add") {
         let button = document.querySelector('#increment-button');
         let input = buttons.querySelector('#counter-input');
-        if(input.value == 0) input.value = 1;
+        if (input.value == 0) input.value = 1;
         cartMessage.innerHTML = '';
         let imgSrcSplited = foodDish.querySelector('.dish-image').src.split('/');
         const imgPath = imgSrcSplited[imgSrcSplited.length - 1];
@@ -170,7 +172,7 @@ dishes.addEventListener('click', (e) => {
             addOrderBtn.addEventListener('click', async () => {
                 const response = await library.sendDataToPhp('/addOrder', userShopCart);
                 if (response.message == 'Saved') window.location.href = '/order';
-                else if(response.code == 301)  window.location.href = '/login';
+                else if (response.code == 301) window.location.href = '/login';
             });
         }
     }
@@ -233,13 +235,25 @@ dishes.addEventListener('click', (e) => {
     }
 })
 
-
+async function fetchDishes() {
+    try {
+        dishesValues = await getAllDishes();
+    } catch (error) {
+        console.error('Error al obtener los platos:', error);
+    }
+}
 async function getAllDishes() {
-    return await library.fetchPhp('/getAllDishes');
+    try {
+        const response = await library.fetchPhp('/getAllDishes');
+        return response;
+    }
+    catch (error) {
+        throw new Error('Error:', error);
+    }
 }
 
-async function sendOrder(){
+async function sendOrder() {
     const response = await library.sendDataToPhp('/addOrder', userShopCart);
     if (response.message == 'Saved') window.location.href = '/order';
-    else if(response.code == 301)  window.location.href = '/login';
+    else if (response.code == 301) window.location.href = '/login';
 }
