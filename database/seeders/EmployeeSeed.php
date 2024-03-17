@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory;
 use App\Models\User;
 use App\Models\Employee;
 use Illuminate\Database\Seeder;
