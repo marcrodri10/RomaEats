@@ -19,10 +19,10 @@ loader.load().then(async () => {
         disableDefaultUI: true,
     });
     const deliveryRoute = JSON.parse(localStorage.getItem("deliveryRoute"));
-    console.log(deliveryRoute);
+
     let routeCode = [];
     for(let route in deliveryRoute) {
-        console.log(deliveryRoute[route]);
+
         routeCode.push(deliveryRoute[route].code.trim())
     }
 
@@ -37,7 +37,7 @@ loader.load().then(async () => {
         const coords = await geocodeAddress(deliveryRoute[route].address)
 
         var distance = google.maps.geometry.spherical.computeDistanceBetween(circle.getCenter(), coords);
-        console.log(deliveryRoute[route].address);
+
         if (distance >= distanceFarthest) {
             routeFarthest = {
                 coords: coords,
@@ -47,12 +47,10 @@ loader.load().then(async () => {
         }
         routeLocation.push(coords);
     }
-    console.log(routeFarthest);
+
     if (Object.entries(deliveryRoute).length > 1) {
 
         let waypoints = routeLocation.filter((route) => {
-            console.log(route.lat);
-            console.log(routeFarthest.coords.lat);
             return route.lat != routeFarthest.coords.lat && route.lng != routeFarthest.coords.lng
         })
 
@@ -63,7 +61,7 @@ loader.load().then(async () => {
                 stopover: true
             };
         });
-        console.log(waypoints);
+
         const directionsService = new google.maps.DirectionsService();
         const directionsRenderer = new google.maps.DirectionsRenderer({
             map: map,
@@ -86,7 +84,6 @@ loader.load().then(async () => {
         directionsService.route(request, function (result, status) {
             if (status == 'OK') {
                 directionsRenderer.setDirections(result);
-                console.log(result);
 
                 let time = 0;
                 let distance = 0;
@@ -106,10 +103,8 @@ loader.load().then(async () => {
                 mapInfo.innerHTML = `
                 Distancia total: ${Math.round(distance/1000)} km<br>
                 Tiempo total: ${Math.round(time / 60)} min<br>`;
-                console.log(result.routes[0].overview_path.length);
 
                 const routeProgress = parseFloat(time / routePath.length).toFixed(3);
-                console.log(routeProgress);
 
                 let i = 0;
                 let routeMarkers = [];
@@ -117,7 +112,6 @@ loader.load().then(async () => {
                     lat: result.routes[0].legs[result.routes[0].legs.length - 1].end_location.lat(),
                     lng: result.routes[0].legs[result.routes[0].legs.length - 1].end_location.lng(),
                 }
-                console.log(finishLocation);
 
                 /* let interval = setInterval(() => {
                     if (routeMarkers.length != 0) {
@@ -147,7 +141,7 @@ loader.load().then(async () => {
                     //console.log(path, JSON.parse(JSON.stringify(routePath[path])));
                     //addMarker(JSON.parse(JSON.stringify(routePath[path])), map, 0);
                 }
-                console.log(JSON.parse(JSON.stringify(result.request.destination.location)));
+
                 for (let leg in result.routes[0].legs) {
                     for (let step in result.routes[0].legs[leg].steps) {
                         mapInfo.innerHTML += `${result.routes[0].legs[leg].steps[step].instructions}<br>`

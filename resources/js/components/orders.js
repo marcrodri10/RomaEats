@@ -39,7 +39,6 @@ loader.load().then(async () => {
     circle = setMapCircle(map, location, parseInt(rangeKm.value));
 
     const response = await library.fetchPhp('/allOrderAddress');
-    console.log(response);
     let markedAddresses = [];
     const ordersDiv = document.querySelector('#orders');
 
@@ -98,7 +97,6 @@ loader.load().then(async () => {
             }
 
         }
-        console.log(routeFarthest);
 
     }
 
@@ -106,7 +104,8 @@ loader.load().then(async () => {
 
     rangeKm.addEventListener("change", async () => {
         localStorage.setItem('range', rangeKm.value);
-        ordersDiv.innerHTML = ``;
+        if(ordersDiv) ordersDiv.innerHTML = ``;
+
         rangeValue.textContent = rangeKm.value + ' km';
         circle.setMap(null);
 
@@ -118,19 +117,15 @@ loader.load().then(async () => {
             var distance = google.maps.geometry.spherical.computeDistanceBetween(circle.getCenter(), coords);
 
             if (distance < parseInt(rangeKm.value) * 1000) {
-                console.log(markedAddresses);
-                console.log(markedAddresses.length);
+
                 const encontrado = markedAddresses.filter(name => name.title === 'Marker' + address);
 
                 if (encontrado.length > 0) {
-                    console.log('siiii');
 
                 }
                 else {
                     let marker = addMarker(coords, map, address);
                     markedAddresses.push(marker);
-                    console.log('aquiii el num' + address);
-                    console.log(markedAddresses);
                 }
                 ordersDiv.innerHTML += `
             <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 order mt-5" id="product{{$id}}">
@@ -162,11 +157,6 @@ loader.load().then(async () => {
                     markedAddresses[encontradoIndex].setMap(null);
                     markedAddresses.splice(encontradoIndex, 1);
 
-
-                    console.log(markedAddresses);
-
-                    console.log(markedAddresses);
-                    console.log(markedAddresses.length);
                 }
             }
         }
@@ -181,7 +171,6 @@ loader.load().then(async () => {
         deliveryRoute = JSON.parse(localStorage.getItem('deliveryRoute'));
 
         for (let route in deliveryRoute) {
-            console.log(route);
             const { code, user, address } = deliveryRoute[route];
             const productCartCard = library.createElement('div', { className: 'flex w-90 justify-around items-center gap-3 product-cart-card' });
             productCartCard.innerHTML = `
@@ -230,15 +219,14 @@ loader.load().then(async () => {
 
             if (e.target.id == "add-route") {
                 shopCartModal.children[1].innerHTML = '';
-                console.log(deliveryRoute);
                 const cardData = e.target.closest('.order-info');
-                console.log(cardData);
+
                 deliveryRoute['route' + e.target.value] = {
                     code: cardData.children[0].children[0].textContent,
                     user: cardData.children[1].children[2].textContent,
                     address: cardData.children[1].children[3].textContent,
                 }
-                console.log(deliveryRoute);
+
                 for (let route in deliveryRoute) {
                     const { code, user, address } = deliveryRoute[route];
                     const productCartCard = library.createElement('div', { className: 'flex w-90 justify-around items-center gap-3 product-cart-card' });
@@ -291,7 +279,7 @@ loader.load().then(async () => {
                     `
                     buyBtn = false;
                 }
-                console.log(deliveryRoute);
+
                 e.target.textContent = 'AÑADIR';
                 e.target.id = 'add-route';
 
@@ -401,7 +389,6 @@ function calcRoute(a, b, map) {
     };
     directionsService.route(request, function (result, status) {
         if (status == 'OK') {
-            console.log(result);
             directionsRenderer.setDirections(result);
         } else {
             console.error('Error al calcular la ruta:', status);
@@ -417,10 +404,9 @@ function estaDentroDeRadio(posicionActual, posicionesGuardadas, radioKm, map) {
             posicionesGuardadas[i].lat,
             posicionesGuardadas[i].lng
         );
-        console.log(distancia);
+
         if (distancia <= radioKm) {
             addMarker({ lat: posicionesGuardadas[i].lat, lng: posicionesGuardadas[i].lng }, map)
-            console.log('siii');// La posición actual está dentro del radio de x km de al menos una posición guardada
             calcRoute(posicionActual, { lat: posicionesGuardadas[i].lat, lng: posicionesGuardadas[i].lng }, map);
 
         }

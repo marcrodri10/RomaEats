@@ -8,7 +8,6 @@ const productsDiv = document.querySelector("#products-div");
 const recipesInputs = document.querySelector('.recipes-inputs');
 const addBtnDiv = document.querySelector('.btn-group');
 
-console.log(addBtn);
 addBtn.forEach(element => {
     element.addEventListener('click', (e) => {
         library.showModal(recipeForm);

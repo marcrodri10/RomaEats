@@ -56,12 +56,9 @@ loader.load().then(async () => {
                 }
             }
 
-            console.log(routePath);
             const TIME = result.routes[0].legs[0].duration.value;
 
-            console.log(TIME);
-            const routeProgress = parseFloat(50 / routePath.length).toFixed(3);
-            console.log(routeProgress);
+            const routeProgress = parseFloat(TIME / routePath.length).toFixed(3);
 
             let i = 0;
             let routeMarkers = [];

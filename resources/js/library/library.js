@@ -112,7 +112,7 @@ export function createShopCartCard(shopCart, div) {
             const publicPath = generatePublicPath();
             const { id, name, price, quantity } = shopCart[cart];
             const productCartCard = createElement('div', { className: 'flex w-90 justify-around items-center gap-3 product-cart-card' });
-            console.log(`${publicPath}img/dish${id}.png`);
+
             productCartCard.innerHTML = `
             <div class="w-40">
                 <img src="${publicPath}img/dish${id}.png">

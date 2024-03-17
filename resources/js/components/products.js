@@ -59,11 +59,10 @@ closeCart.forEach(element => {
 })
 if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && library.checkJSON(JSON.parse(localStorage.getItem('userShopCart')))) {
     userShopCart = JSON.parse(localStorage.getItem('userShopCart'))
-    console.log(userShopCart);
+
     cartMessage.innerHTML = ``;
     for (let cart in userShopCart) {
         if (cart.includes('product')) {
-            console.log(cart);
             const element = document.querySelector('#' + cart);
             const value = element.querySelector('#counter-input').value = userShopCart[cart].quantity;
             const inputs = element.querySelector('.product-quantity').classList.remove('hidden');
@@ -105,14 +104,13 @@ products.addEventListener('click', (e) => {
         productInfo = foodDish.querySelector('.product-info');
         buttons = e.target.closest('.buttons');
     }
-    console.log(productInfo);
     if (e.target.id == "add") {
         let button = document.querySelector('#increment-button');
         let input = buttons.querySelector('#counter-input');
         if(input.value == 0) input.value = 1;
         cartMessage.innerHTML = '';
         let imgSrcSplited = foodDish.querySelector('.dish-image').src.split('/');
-        console.log(foodDish.querySelector('.dish-image').src);
+
         const imgPath = imgSrcSplited[imgSrcSplited.length - 1];
         const id = parseInt(foodDish.id.match(/\d+/)[0]);
         const img = foodDish.querySelector('.dish-image').src;
@@ -186,8 +184,6 @@ products.addEventListener('click', (e) => {
 
             }
             if (Object.entries(userShopCart).length == 0) {
-                console.log('sisii');
-                console.log(cartMessage);
                 cartMessage.innerHTML = `
                 <h2>Tu carrito está vacío</h2>
                 <button type="submit" value="see-more" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-green-800 dark:hover:bg-white  active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">
@@ -242,7 +238,6 @@ function handleResult(result) {
 function stopScanner() {
     if (html5QrcodeScanner) {
         html5QrcodeScanner.stop();
-        console.log("Cámara detenida");
     }
 }
 const formatsToSupport = [
@@ -266,7 +261,6 @@ scanBtn.addEventListener('click', async (e) => {
              * devices would be an array of objects of type:
              * { id: "id", label: "label" }
              */
-            console.log(devices);
 
             if (devices && devices.length) {
                 const cameraId = devices[0].id;
@@ -280,11 +274,8 @@ scanBtn.addEventListener('click', async (e) => {
                         qrbox: { width: 300, height: 200 }, // Optional, if you want bounded box UI
                     },
                     (decodedText, decodedResult) => {
-                        console.log(decodedText);
                         if (decodedText != null || decodedText != undefined) {
-                            console.log('hola');
                             productSearch.value = decodedText;
-                            console.log(decodedText);
                             html5QrCode.stop().then((ignore) => {
                                 // QR Code scanning is stopped.
                             }).catch((err) => {
@@ -303,7 +294,6 @@ scanBtn.addEventListener('click', async (e) => {
                 scanBtn.textContent = "STOP";
 
             } else {
-                console.log("No se encontraron cámaras disponibles.");
                 alert("No se encontraron cámaras disponibles.");
             }
         } catch (err) {
@@ -331,10 +321,8 @@ async function getProduct(id) {
 
     try {
         const response = await fetch(`https://es.openfoodfacts.org/api/v2/product/${id}`);
-        console.log(response);
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
             productDiv.innerHTML = `
             <div class="flex items-center justify-center product-info gap-5">
                 <div class="img">
