@@ -14,10 +14,10 @@ let addedDelete = false;
 let addedSend = false;
 let selectAdded = false;
 let selectDiv;
+let products;
 
 
-
-const products = getProducts();
+fetchProducts();
 
 addBtn.forEach(element => {
     element.addEventListener('click', (e) => {
@@ -86,7 +86,6 @@ addRecipe.addEventListener('click', (e) => {
         const deleteBtn = deleteBtnDiv.querySelector('#delete-btn');
 
         deleteBtn.addEventListener('click', () => {
-            console.log('hola');
 
             const lastStep = document.querySelector('.recipe-step:last-child');
             if (lastStep != null) {
@@ -97,7 +96,6 @@ addRecipe.addEventListener('click', (e) => {
                     addBtnDiv.children[2].remove();
                     addedDelete = false;
                     step = 1;
-                    console.log('se resetea');
                 }
             }
 
@@ -111,8 +109,6 @@ addRecipe.addEventListener('click', (e) => {
 })
 
 addProduct.addEventListener('click', () => {
-
-    console.log(recipeIngredients);
     const select = document.createElement('select');
     select.id = 'ingredients';
     select.name = 'ingredients';
@@ -124,12 +120,22 @@ addProduct.addEventListener('click', () => {
         option.value = products[product].user_product_id;
         option.textContent = products[product].user_product_name;
         select.appendChild(option);
-        console.log(products[product]);
     }
 
 })
 
-
+async function fetchProducts() {
+    try {
+        products = await getProducts();
+    } catch (error) {
+        console.error('Error al obtener los productos:', error);
+    }
+}
 async function getProducts(){
-    return await library.fetchPhp('/getProducts')
+    try {
+        const response = await library.fetchPhp('/getProducts');
+        return response;
+    } catch (error) {
+        throw new Error('Error al obtener los productos:', error);
+    }
 }

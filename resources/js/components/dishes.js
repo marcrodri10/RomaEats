@@ -17,7 +17,6 @@ const continueBtn = document.querySelector('#continue');
 
 if (continueBtn){
     continueBtn.addEventListener('click', () => {
-        console.log('hola');
         window.location.href = '/dishes';
     })
 }
@@ -52,7 +51,6 @@ if(search){
                     })
                     for (let cart in userShopCart) {
                         if (pageDishesIds.includes(cart)) {
-                            console.log('ohla');
                             const element = document.querySelector('#' + cart);
                             const value = element.querySelector('#counter-input').value = userShopCart[cart].quantity;
                             const inputs = element.querySelector('.product-quantity').classList.remove('hidden');
@@ -93,7 +91,6 @@ if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && libra
     for (let cart in userShopCart) {
         if (pageDishesIds.includes(cart)) {
             if(cart.includes('dish')){
-                console.log(cart);
                 const element = document.querySelector('#' + cart);
                 const value = element.querySelector('#counter-input').value = userShopCart[cart].quantity;
                 const inputs = element.querySelector('.product-quantity').classList.remove('hidden');
@@ -105,7 +102,6 @@ if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && libra
     library.createShopCartCard(userShopCart, cartMessage)
 
     if (!buyBtn) {
-        console.log('entroo');
         const finishBuyDiv = library.createElement('div', {
             className: 'flex justify-center items-center',
         });
@@ -121,7 +117,6 @@ if (library.checkJSON(JSON.parse(localStorage.getItem('userShopCart'))) && libra
         buyBtn = true;
 
         const addOrderBtn = document.querySelector('#buy');
-        console.log(addOrderBtn);
         addOrderBtn.addEventListener('click', async () => {
             sendOrder();
         });
@@ -172,7 +167,6 @@ dishes.addEventListener('click', (e) => {
             buyBtn = true;
 
             const addOrderBtn = document.querySelector('#buy');
-            console.log(addOrderBtn);
             addOrderBtn.addEventListener('click', async () => {
                 const response = await library.sendDataToPhp('/addOrder', userShopCart);
                 if (response.message == 'Saved') window.location.href = '/order';
@@ -207,7 +201,6 @@ dishes.addEventListener('click', (e) => {
         let button = e.target.closest('#decrement-button');
 
         if (button.parentNode.children[1].value > 0) {
-            console.log('fjiohjfihj');
             button.parentNode.children[1].value--;
             if (button.parentNode.children[1].value >= 1) {
                 userShopCart[foodDish.id].quantity = button.parentNode.children[1].value
@@ -218,8 +211,6 @@ dishes.addEventListener('click', (e) => {
 
             }
             if (Object.entries(userShopCart).length == 0) {
-                console.log('sisii');
-                console.log(cartMessage);
                 cartMessage.innerHTML = `
                 <h2>Tu carrito está vacío</h2>
                 <button type="submit" value="see-more" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-green-800 dark:hover:bg-white  active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 ms-3 bg-green-700 pt-3 pb-3 pl-8 pr-8">
