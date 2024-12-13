@@ -67,28 +67,6 @@ loader.load().then(async () => {
                 lng: parseFloat(result.routes[0].legs[0].end_location.lng().toFixed(5)),
             }
 
-           /*  let interval = setInterval(() => {
-                if(routeMarkers.length != 0){
-                    routeMarkers[0].setMap(null);
-                    routeMarkers.splice(0, 1)
-                }
-
-
-                let position = {
-                    lat: routePath[i].lat(),
-                    lng: routePath[i].lng(),
-                }
-                console.log(position.lat == finishLocation.lat && position.lng == finishLocation.lng);
-                if(position.lat == finishLocation.lat && position.lng == finishLocation.lng) {
-                    console.log('ha llegado');
-                    clearInterval(interval);
-                }
-                let rMarker = addMarker(position, map, 0, 'circle.svg');
-                routeMarkers.push(rMarker);
-
-                i++;
-            }, routeProgress*1000) */
-
             for(let step of result.routes[0].legs[0].steps){
 
                 mapInfo.innerHTML += `${step.instructions}<br>`

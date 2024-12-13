@@ -113,35 +113,6 @@ loader.load().then(async () => {
                     lng: result.routes[0].legs[result.routes[0].legs.length - 1].end_location.lng(),
                 }
 
-                /* let interval = setInterval(() => {
-                    if (routeMarkers.length != 0) {
-                        routeMarkers[0].setMap(null);
-                        routeMarkers.splice(0, 1)
-                    }
-
-
-                    let position = {
-                        lat: routePath[i].lat(),
-                        lng: routePath[i].lng(),
-                    }
-                    var distanciaEnMetros = google.maps.geometry.spherical.computeDistanceBetween(finishLocation, position);
-                    console.log(distanciaEnMetros);
-                    console.log(position.lat, finishLocation.lat, position.lng, finishLocation.lng);
-                    console.log(position.lat == finishLocation.lat && position.lng == finishLocation.lng);
-                    if (distanciaEnMetros < 1) {
-                        console.log('ha llegado');
-                        clearInterval(interval);
-                    }
-                    let rMarker = addMarker(position, map, 0, 'circle.svg');
-                    routeMarkers.push(rMarker);
-
-                    i++;
-                }, routeProgress * 1000) */
-                for(let path in routePath){
-                    //console.log(path, JSON.parse(JSON.stringify(routePath[path])));
-                    //addMarker(JSON.parse(JSON.stringify(routePath[path])), map, 0);
-                }
-
                 for (let leg in result.routes[0].legs) {
                     for (let step in result.routes[0].legs[leg].steps) {
                         mapInfo.innerHTML += `${result.routes[0].legs[leg].steps[step].instructions}<br>`
@@ -156,76 +127,6 @@ loader.load().then(async () => {
             }
         });
     }
-    /* const directionsService = new google.maps.DirectionsService();
-    const directionsRenderer = new google.maps.DirectionsRenderer({
-        map: map,
-        polylineOptions: {
-            strokeColor: '#FF0000',  // Cambiar el color de la línea
-            strokeWeight: 10,         // Cambiar el grosor de la línea
-            strokeOpacity: 0.7,      // Cambiar la opacidad de la línea
-        },
-    });
-    directionsRenderer.setMap(map);
-
-    const request = {
-        origin: location,
-        destination: coords,
-        travelMode: 'DRIVING',
-    };
-
-    directionsService.route(request, function (result, status) {
-        if (status == 'OK') {
-            directionsRenderer.setDirections(result);
-            console.log(result);
-            mapInfo.innerHTML = `
-            ${result.routes[0].legs[0].distance.text}
-            ${result.routes[0].legs[0].duration.text}`;
-            console.log(result.routes[0].overview_path.length);
-            const TIME = result.routes[0].legs[0].duration.value;
-
-            console.log(TIME);
-            const routeProgress = parseFloat(TIME / result.routes[0].overview_path.length).toFixed(3);
-            console.log(routeProgress);
-
-            let i = 0;
-            let routeMarkers = [];
-            const finishLocation = {
-                lat: parseFloat(result.routes[0].legs[0].end_location.lat().toFixed(5)),
-                lng: parseFloat(result.routes[0].legs[0].end_location.lng().toFixed(5)),
-            }
-            let interval = setInterval(() => {
-                if(routeMarkers.length != 0){
-                    routeMarkers[0].setMap(null);
-                    routeMarkers.splice(0, 1)
-                }
-
-
-                let position = {
-                    lat: result.routes[0].overview_path[i].lat(),
-                    lng: result.routes[0].overview_path[i].lng(),
-                }
-                console.log(position.lat == finishLocation.lat && position.lng == finishLocation.lng);
-                if(position.lat == finishLocation.lat && position.lng == finishLocation.lng) {
-                    console.log('ha llegado');
-                    clearInterval(interval);
-                }
-                let rMarker = addMarker(position, map, 0, 'circle.svg');
-                routeMarkers.push(rMarker);
-
-                i++;
-            }, routeProgress*1000)
-
-            console.log(coords);
-
-            console.log(JSON.parse(JSON.stringify(result.request.destination.location)));
-            for(let step of result.routes[0].legs[0].steps){
-
-                mapInfo.innerHTML += `${step.instructions}<br>`
-            }
-        } else {
-            console.error('Error al calcular la ruta:', status);
-        }
-    }); */
 
 })
 

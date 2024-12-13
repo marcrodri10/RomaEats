@@ -12,8 +12,8 @@ class UserDishController extends Controller
 {
     //
     function index(){
-        $userDishes = UserDish::where('user_id', Auth::user()->id)->get();
-        $recipes = Recipe::where('user_id', Auth::user()->id)->get();
+        $userDishes = UserDish::getAllUserDishes(Auth::user()->id);
+        $recipes = Recipe::getUserRecipes(Auth::user()->id);
         return view('user-dishes', ['userDishes' => $userDishes, 'recipes' => $recipes]);
     }
 
@@ -29,18 +29,18 @@ class UserDishController extends Controller
                 'user_recipe_id' => $request->recipes,
                 'user_id' => Auth::user()->id,
             ];
-
-            UserDish::create($userDishData);
+            UserDish::createUserDish($userDishData);
             return Redirect::route('mydishes.index')->with('product_add', 'added');
         }
         catch(\Exception $e){
+           
             return Redirect::route('mydishes.index')->with('error', $e->getMessage());
         }
 
     }
     function showUserDish(Request $request){
         $id = $request->route('id');
-        $dish = UserDish::find($id);
+        $dish = UserDish::getUserDish($id);
 
         return view('user-dish-info', ['dish' => $dish]);
     }

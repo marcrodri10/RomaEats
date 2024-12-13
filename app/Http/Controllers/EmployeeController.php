@@ -9,7 +9,7 @@ class EmployeeController extends Controller
 {
     //
     function orders(){
-        $orders = Order::all();
+        $orders = Order::getAllOrders();
         return view('all-orders', ['orders' => $orders]);
     }
 }

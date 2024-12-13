@@ -6,24 +6,26 @@ use App\Models\Dish;
 
 class DishController extends Controller
 {
-    // Tonto quien lo lea
-    function index(){
-        $dishes = Dish::orderBy('dish_name', 'ASC')
-            ->with('ingredients')
-            ->paginate(5);
+    // Listar platos paginados
+    public function index()
+    {
+        $dishes = Dish::getPaginatedDishes();  // Usamos el método del modelo
         return view('dishes', compact('dishes'));
     }
 
-    function showDish(Request $request){
+    // Mostrar detalles de un plato específico
+    public function showDish(Request $request)
+    {
         $id = $request->route('id');
-
-        $dish = Dish::find($id);
+        $dish = Dish::getDishById($id);  // Usamos el método del modelo
 
         return view('dish-full', ['dish' => $dish]);
     }
-    function getAllDishes(){
-        $dishes = Dish::orderBy('dish_name', 'ASC')->get();
 
-        return $dishes;
+    // Obtener todos los platos
+    public function getAllDishes()
+    {
+        return Dish::getAllDishes();  // Usamos el método del modelo
     }
+
 }

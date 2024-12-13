@@ -15,4 +15,8 @@ class RecipeStep extends Model
         'recipe_step_description',
         'user_recipe_id',
     ];
+
+    public static function getUserRecipesSteps($id){
+        return RecipeStep::where('user_recipe_id', $id)->get();
+    }
 }

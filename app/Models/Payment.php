@@ -21,4 +21,9 @@ class Payment extends Model
         'price',
 
     ];
+
+    public static function createPayment($data)
+    {
+        return self::create($data);
+    }
 }

@@ -57,7 +57,7 @@ Route::middleware(['auth', 'user'])->group(function () {
 });
 
 Route::middleware(['auth', 'employee',])->group(function(){
-    Route::get('/orders', [OrderController::class, 'orders'])->name('employee.orders');
+    Route::get('/orders', [EmployeeController::class, 'orders'])->name('employee.orders');
     Route::get('/allOrderAddress', [OrderController::class, 'getAllOrderAddress'])->name('employee.orders.getAllOrderAddress');
     Route::post('/route/{id}', [OrderController::class, 'showOrderMap'])->name('employee.orders.showOrderMap');
     Route::get('/deliveryRoute', [OrderController::class, 'showDeliveryRoute'])->name('employee.orders.deliveryRoute');

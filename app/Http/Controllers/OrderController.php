@@ -10,18 +10,13 @@ class OrderController extends Controller
 {
     //
     function index(){
-        $orders = Order::where('user_id', Auth::user()->id)->get();
+        $orders = Order::getUserOrders(Auth::user()->id);
         return view('user-orders', ['orders' => $orders]);
     }
 
-    function orders(){
-        $orders = Order::join('users', 'orders.user_id', '=', 'users.id')->get();
-        return view('all-orders', ['orders' => $orders]);
-    }
     function showOrder(Request $request){
         $id = $request->route('id');
-        $order = Order::join('users', 'orders.user_id', '=', 'users.id')
-        ->where('order_id', $id)->get()[0];
+        $order = Order::getOrder($id)->first();
         return view('order-info', ['order' => $order]);
     }
 
@@ -33,15 +28,11 @@ class OrderController extends Controller
 
     function showOrderMap(Request $request){
         $id = $request->route('id');
-        $order = Order::join('users', 'orders.user_id', '=', 'users.id')
-        ->where('order_id', $id)
-        ->get();
-        //Session::put('order_id', $id);
+        $order = Order::getOrder($id);
         return view('order-map', ['order' => $order]);
     }
 
     function showDeliveryRoute(){
-
         return view('delivery-route');
     }
 
@@ -49,7 +40,6 @@ class OrderController extends Controller
         $requestData = $request->json()->all();
 
         foreach($requestData as $data){
-            dump($data);
             Order::where('order_dish_code', $requestData['code'])
             ->update(['order_status' => 'Delivery']);
         }

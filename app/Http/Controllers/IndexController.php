@@ -12,21 +12,10 @@ class IndexController extends Controller
     public function index()
     {
         if(Auth::check()){
-            if(Auth::user()->role_id == 1){
-                $dishes = Dish::select('*')
-                ->take(4)
-                ->get();
-                return view('index', ['dishes' => $dishes]);
-            }
-            else return view('employee-index');
+            if(Auth::user()->role_id == 2) return view('employee-index');
         }
-        else {
-            $dishes = Dish::select('*')
-                ->take(4)
-                ->get();
-            return view('index', ['dishes' => $dishes]);
-        }
-
+        $dishes = Dish::getSomeDishes(4);
+        return view('index', ['dishes' => $dishes]);    
 
     }
 }

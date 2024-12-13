@@ -25,7 +25,7 @@ class ProductController extends Controller
     public function getAllProducts()
     {
 
-        return Product::where('user_id', Auth::user()->id)->get();
+        return Product::getUserProducts(Auth::user()->id);
     }
 
     public function storeProduct(Request $request)
@@ -33,38 +33,16 @@ class ProductController extends Controller
 
         try {
             if ($request->search != "") {
-                $response = Http::get('https://es.openfoodfacts.org/api/v2/product/' . $request->search);
+                $response = Product::getApiProduct($request->search);
+
                 $data = $response->json();
+                
                 if($data['status'] == 0) throw new Exception('El producto no existe o el código de barras que has introducido es incorrecto.');
-                $imageUrl = substr($data['product']['image_url'], strpos($data['product']['image_url'], 'products') + strlen('products') + 1);
-                $price = rand(100, 400) / 100;
-                if(isset($data['product']['product_name_es'])){
-                    $name = $data['product']['product_name_es'];
-                }
-                else if($data['product']['product_name_en']){
-                    $name = $data['product']['product_name_en'];
-                }
-                if (isset($data['product']['categories_imported'])) {
-                    $category = $data['product']['categories_imported'];
-                } else $category = '';
-                if (isset($data['product']['stores'])) {
-                    $stores = $data['product']['stores'];
-                } else $stores = '';
-                $datos = [
-                    'user_product_code' => $data['product']['id'],
-                    'user_product_name' => $name,
-                    'user_product_brand' => $data['product']['brands'],
-                    'user_product_category' => $category,
-                    'user_product_store_location' => $stores,
-                    'user_product_nutri_score' => $data['product']['nutriscore_grade'],
-                    'user_product_image' => $imageUrl,
-                    'user_product_price' => $price,
-                ];
-                $user = Auth::user();
+                
+                $datos = Product::generateProductArray($data);
 
-                $products = Product::where('user_product_code', $datos['user_product_code']);
-                $datos['user_id'] = $user->id;
-
+                $products = Product::getProductByCode($datos['user_product_code']);
+                
                 if ($products->count() == 0) {
                     Product::create($datos);
                     return Redirect::route('products')->with('product_add', 'added');
@@ -78,7 +56,7 @@ class ProductController extends Controller
 
     public function showProduct(Request $request){
         $id = $request->route('id');
-        $product = Product::find($id);
+        $product = Product::getUserProductById($id);
 
         return view('product-info', ['product' => $product]);
     }

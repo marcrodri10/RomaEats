@@ -19,16 +19,6 @@ loader.load().then(async () => {
         disableDefaultUI: true,
     });
     let circle;
-    /* geocodeAddress('Avinguda de la Riera de Sant Llorenç, 120, 3º 1ª')
-    .then(coords => {
-        console.log(coords);
-        var distance = google.maps.geometry.spherical.computeDistanceBetween(circle.getCenter(), coords);
-        console.log(distance);
-
-    }) */
-
-
-
 
     const rangeKm = document.querySelector('#km-range');
     let rangeValue = document.querySelector('#range-value');

@@ -14,79 +14,65 @@ use App\Models\Dish;
 
 class PaymentController extends Controller
 {
-    //
-    function index(Request $request)
+    public function index(Request $request)
     {
-        if ($request->order_response == 'pay') return view('payment');
-        else {
-            //OrderDish::where('order_dish_code', session('order_dish_code'))->delete();
+        if ($request->order_response == 'pay') {
+            return view('payment');
+        } else {
             return Redirect::route('dishes');
         }
     }
 
-    function pay(Request $request)
+    public function pay(Request $request)
     {
         try {
-            if ($request->payment == 'pay') {
-                $realUserCard = Card::where('card_number', $request->card)->first();
-                if ($realUserCard !== null) {
-                    if ($realUserCard->user_id !== Auth::user()->id) throw new \Exception('Tarjeta ya en uso');
-                    else {
-                        if (Hash::check($request->cvv, $realUserCard->cvv)) {
-                            $cardId = $realUserCard->card_id;
-                            if ($request->save_card) {
-                                $realUserCard->save_card = 1;
-                                $realUserCard->save();
-                            }
-                        }
-                    }
-                } else {
-                    if ($request->save_card) $save = 1;
-                    else $save = 0;
-                    $card_fields = [
-                        "card_name" => $request->card_name,
-                        "card_number" => $request->card,
-                        "cvv" => Hash::make($request->cvv),
-                        'validation_date' => $request->validation_date,
-                        'save_card' => $save,
-                        "user_id" => Auth::user()->id,
-                    ];
-                    Card::create($card_fields);
-                    $cardId = Card::where('card_number', $card_fields['card_number'])->first()->card_id;
-                }
-                $now =  new \DateTime();
+            if ($request->payment === 'pay') {
+                $now = new \DateTime();
 
+                // Preparar datos para la tarjeta
+                $cardData = [
+                    'card_name' => $request->card_name,
+                    'card_number' => $request->card,
+                    'cvv' => $request->cvv,
+                    'validation_date' => $request->validation_date,
+                    'save_card' => $request->save_card ? 1 : 0,
+                    'user_id' => Auth::user()->id,
+                ];
 
+                // Manejar tarjeta y obtener el ID
+                $cardId = Card::findOrCreateCard($cardData);
 
-
-                $order_fields = [
+                // Preparar datos para la orden
+                $orderData = [
                     'order_date' => $now->format('Y-m-d H:i:s'),
                     'order_status' => 'Paid',
                     'order_total_price' => session('order_dish_amount'),
                     'user_comments' => "",
                     'user_id' => Auth::user()->id,
                     'order_dish_code' => session('order_dish_code'),
-                    'order_address' =>  $request->address,
+                    'order_address' => $request->address,
                 ];
 
-                Order::create($order_fields);
-
-                $payment_fields = [
+                // Crear la orden
+                $order = Order::createOrder($orderData);
+                
+                // Preparar datos para el pago
+                $paymentData = [
                     'card_id' => $cardId,
                     'user_id' => Auth::user()->id,
                     'payment_date' => $now->format('Y-m-d'),
-                    'order_id' => Order::where('order_dish_code', session('order_dish_code'))->first()->order_id,
+                    'order_id' => $order->order_id,
                     'total_payed' => session('order_dish_amount'),
                 ];
-
-                Payment::create($payment_fields);
+                // Crear el pago
+                Payment::createPayment($paymentData);
 
                 return view('successful-payment');
             } else {
-                return redirect::to('dishes');
+                return Redirect::to('dishes');
             }
         } catch (\Exception $e) {
-            return Redirect::route('order.index')->with('error', $e->getMessage());;
+            return Redirect::route('order.index')->with('error', $e->getMessage());
         }
     }
 }

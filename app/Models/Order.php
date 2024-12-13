@@ -21,4 +21,22 @@ class Order extends Model
         'order_dish_code',
         'order_address',
     ];
+
+    public static function getAllOrders(){
+        return self::all();
+    }
+
+    public static function getUserOrders($userId){
+        return Order::where('user_id', $userId)->get();
+    }
+    public static function getOrder($orderId){
+        return Order::join('users', 'orders.user_id', '=', 'users.id')
+        ->where('order_id', $orderId)
+        ->get();
+    }
+
+    public static function createOrder($data)
+    {
+        return self::create($data);
+    }
 }

@@ -13,7 +13,7 @@ class RecipeController extends Controller
 {
     //
     function index(){
-        $recipes = Recipe::where('user_id', Auth::user()->id)->get();
+        $recipes = Recipe::getUserRecipes(Auth::user()->id);
         $products = Product::where('user_id', Auth::user()->id)->get();
         return view('recipes', ['recipes' => $recipes, 'products' => $products]);
     }
@@ -27,24 +27,9 @@ class RecipeController extends Controller
                 'user_id' => Auth::user()->id,
             ];
 
-            Recipe::create($recipeData);
-            $recipeId = Recipe::where('user_recipe_name', $request->recipe_name)
-            ->get()[0]->user_recipe_id;
+            Recipe::createRecipe($recipeData);
 
-            $recipeStepData = [];
-            foreach($request->all() as $key => $value){
-                if(strpos($key, 'recipe_step_') !== false){
-                    $recipeStepData[] = $value;
-                }
-            }
-
-            foreach($recipeStepData as $step){
-                $recipeStep = [
-                    'recipe_step_description' => $step,
-                    'user_recipe_id' => $recipeId,
-                ];
-                RecipeStep::create($recipeStep);
-            }
+            Recipe::createRecipeSteps($request);
 
             return Redirect::route('recipe.index')->with('product_add', 'added');;
         }
@@ -55,8 +40,8 @@ class RecipeController extends Controller
 
     function showRecipe(Request $request){
         $id = $request->route('id');
-        $recipe = Recipe::find($id);
-        $steps = RecipeStep::where('user_recipe_id', $id)->get();
+        $recipe = Recipe::getUserRecipeById($id);
+        $steps = RecipeStep::getUserRecipesSteps($id);
         return view('recipe-info', ['recipe' => $recipe, 'steps' => $steps]);
     }
 }

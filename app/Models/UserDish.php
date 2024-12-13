@@ -23,4 +23,17 @@ class UserDish extends Model
         'user_recipe_id',
         'user_id',
     ];
+
+    public static function getUserDish($id){
+        return self::find($id);
+    }
+
+    public static function getAllUserDishes($id){
+        return UserDish::where('user_id', $id)->get();
+    }
+
+    public static function createUserDish($userDish){
+        return self::create($userDish);
+    }
+
 }
