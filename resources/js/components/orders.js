@@ -2,7 +2,7 @@ import { Loader } from "@googlemaps/js-api-loader"
 import * as library from "./../library/library.js";
 
 const loader = new Loader({
-    apiKey: "AIzaSyBlIHHRKg4PQdcHB8Ogsdof6-n1SXu2aOk",
+    apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
     version: "weekly",
     libraries: ['geometry']
 });
